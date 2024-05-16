@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class dos : MonoBehaviour
 {
-    public pullCard pulls;
+    private pullCard pulls;
     private GameObject dosButton;
     public Transform pullCardTransform;
     private GameObject parentObj;
