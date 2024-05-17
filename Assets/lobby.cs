@@ -6,34 +6,18 @@ using WebSocketSharp;
 
 public class lobby : MonoBehaviour
 {
+    private GameObject panel;
+    private Text player1;
+    private Text player2;
+
     // Start is called before the first frame update
     void Start()
     {
+        panel = GameObject.Find("Panel");
+        player1 = GameObject.Find("PlayerName (1)").GetComponent<Text>();;
+        player2 = GameObject.Find("PlayerName (2)").GetComponent<Text>();;
         // Subscribe to WebSocketManager's OnMessage event
         WebSocketManager.Instance.OnMessageReceived += HandleMessage;
-
-
-          // Find the Panel GameObject
-        GameObject panel = GameObject.Find("Panel");
-        if (panel != null)
-        {
-            // Create a new GameObject and set its parent to the Panel
-            GameObject newTextGO = new GameObject("myTextGO");
-            newTextGO.transform.SetParent(panel.transform, false); // Ensure that the scale is not affected by the parent's scale
-
-            // Add the Text component to the new GameObject
-            Text newText = newTextGO.AddComponent<Text>();
-            newText.text = "Ta-dah!";
-
-            // Set the RectTransform properties for positioning and size
-            RectTransform rectTransform = newText.GetComponent<RectTransform>();
-            rectTransform.localPosition = Vector3.zero; // Set the position to the center of the panel
-            rectTransform.sizeDelta = new Vector2(200, 50); // Set the size of the text box
-        }
-        else
-        {
-            Debug.LogError("Panel GameObject not found!");
-        }
     }
 
     void HandleMessage(string message)
@@ -41,21 +25,12 @@ public class lobby : MonoBehaviour
         Debug.Log("Received message: " + message);
 
         // Find the Panel GameObject
-        GameObject panel = GameObject.Find("Panel");
-        if (panel != null)
+        if (panel != null )
         {
-            // Create a new GameObject and set its parent to the Panel
-            GameObject newTextGO = new GameObject("myTextGO");
-            newTextGO.transform.SetParent(panel.transform, false); // Ensure that the scale is not affected by the parent's scale
+            Debug.Log("panel found :)");
+            player1.text = "player1";
+            player2.text = "player2";
 
-            // Add the Text component to the new GameObject
-            Text newText = newTextGO.AddComponent<Text>();
-            newText.text = "Ta-dah!";
-
-            // Set the RectTransform properties for positioning and size
-            RectTransform rectTransform = newText.GetComponent<RectTransform>();
-            rectTransform.localPosition = Vector3.zero; // Set the position to the center of the panel
-            rectTransform.sizeDelta = new Vector2(200, 50); // Set the size of the text box
         }
         else
         {
@@ -65,6 +40,5 @@ public class lobby : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 }

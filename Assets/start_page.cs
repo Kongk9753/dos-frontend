@@ -30,7 +30,7 @@ public class start_page : MonoBehaviour
         SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
         SceneManager.UnloadScene("Start_Page");
         WebSocketManager.Instance.Connect(LobbyCode);
-        WebSocketManager.Instance.OnMessageReceived += HandleMessage;
+        //WebSocketManager.Instance.OnMessageReceived += HandleMessage;
     }
 
     void HandleMessage(string message)
