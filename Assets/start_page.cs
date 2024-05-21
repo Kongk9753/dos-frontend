@@ -5,12 +5,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using WebSocketSharp;
+using Newtonsoft.Json.Linq;
 public class start_page : MonoBehaviour
 {
     public Text Lobby_Code;
     public Button Join_Lobby_Button;
     public Button Create_Lobby_Button;
     private IEnumerator coroutine;
+    private string Create_Lobby_Code;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,9 +20,6 @@ public class start_page : MonoBehaviour
         joinLobby.onClick.AddListener(Join_Lobby);
         Button createLobby = Create_Lobby_Button.GetComponent<Button>();
         createLobby.onClick.AddListener(Create_Lobby);
-        Debug.Log("start");
-        coroutine = GetRequest();
-        StartCoroutine(coroutine);
     }
     void Join_Lobby()
     {
@@ -44,6 +43,8 @@ public class start_page : MonoBehaviour
         DestroyImmediate(Camera.main.gameObject);
         SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
         SceneManager.UnloadScene("Start_Page");
+        coroutine = GetRequest();
+        StartCoroutine(coroutine);
     }
 
     IEnumerator GetRequest()
@@ -56,6 +57,10 @@ public class start_page : MonoBehaviour
             if (www.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log("Received: " + www.downloadHandler.text);
+                string json = www.downloadHandler.text;
+                Create_Lobby_Code = (string) JToken.Parse(json).SelectToken("code");
+                WebSocketManager.Instance.Connect(Create_Lobby_Code);
+
             }
             else
             {
