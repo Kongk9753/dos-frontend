@@ -7,12 +7,12 @@ using WebSocketSharp;
 public class WebSocketManager : MonoBehaviour
 {
     private static WebSocketManager _instance;
+
     private WebSocket _socket;
 
     // Define a custom event for message received
     public delegate void MessageReceivedHandler(string message);
     public event MessageReceivedHandler OnMessageReceived;
-
     // Singleton pattern
     public static WebSocketManager Instance
     {
@@ -26,6 +26,8 @@ public class WebSocketManager : MonoBehaviour
             return _instance;
         }
     }
+
+
 
     private void Awake()
     {

@@ -23,8 +23,8 @@ using UnityEngine;
             Debug.Log("Child count: " + childCount);
             pullTransform.parent = parentObj.transform;
 
-            anim = pullTransform.GetComponent<Animation>();
-            anim.Play("pullCard");  
+            // anim = pullTransform.GetComponent<Animation>();
+            // anim.Play("pullCard");  
 
             pullTransform.position = transform.position + new Vector3(-300f - pullTransform.parent.position.x - pullTransform.position.x + (90f * childCount), 135f, pullTransform.parent.position.z - pullTransform.position.z);
             pullTransform.eulerAngles = new Vector3(0, 90, 40);

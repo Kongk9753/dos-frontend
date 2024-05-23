@@ -12,7 +12,10 @@ public class start_page : MonoBehaviour
     public Button Join_Lobby_Button;
     public Button Create_Lobby_Button;
     private IEnumerator coroutine;
-    private string Create_Lobby_Code;
+    public string CreateLobbyCode;
+    public static start_page Instance;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,9 +61,8 @@ public class start_page : MonoBehaviour
             {
                 Debug.Log("Received: " + www.downloadHandler.text);
                 string json = www.downloadHandler.text;
-                Create_Lobby_Code = (string) JToken.Parse(json).SelectToken("code");
-                WebSocketManager.Instance.Connect(Create_Lobby_Code);
-
+                start_page.Instance.CreateLobbyCode = (string)JToken.Parse(json).SelectToken("code");
+                WebSocketManager.Instance.Connect(start_page.Instance.CreateLobbyCode);
             }
             else
             {
@@ -70,5 +72,17 @@ public class start_page : MonoBehaviour
 
     }
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
 }

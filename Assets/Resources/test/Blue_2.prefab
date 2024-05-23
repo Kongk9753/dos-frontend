@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7399218797421682075}
   - component: {fileID: 5628625876865525795}
   - component: {fileID: 5829341245443293176}
-  - component: {fileID: 1172685129910727733}
   m_Layer: 0
   m_Name: Blue_2
   m_TagString: Untagged
@@ -124,20 +123,3 @@ MonoBehaviour:
   pulls: {fileID: 0}
   pullCardTransform: {fileID: 0}
   rotationAngles: {x: 0, y: 0, z: 0}
---- !u!111 &1172685129910727733
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 124921421004789875}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 7cc2bbbbb7a10c6cda026b8e28d068a5, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 7cc2bbbbb7a10c6cda026b8e28d068a5, type: 2}
-  - {fileID: 7400000, guid: 45329c1026e3d3d648fb41b1794861d4, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
