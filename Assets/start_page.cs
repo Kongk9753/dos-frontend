@@ -23,6 +23,8 @@ public class start_page : MonoBehaviour
         joinLobby.onClick.AddListener(Join_Lobby);
         Button createLobby = Create_Lobby_Button.GetComponent<Button>();
         createLobby.onClick.AddListener(Create_Lobby);
+
+        Debug.Log(idToken.Instance.id + "startpage");
     }
     void Join_Lobby()
     {
