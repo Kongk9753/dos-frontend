@@ -243,7 +243,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 124921421004789875, guid: 3f86df29ebd2aaed4a8516183f535c38, type: 3}
       propertyPath: m_Name
-      value: Blue_4
+      value: Blue_4(Clone)
       objectReference: {fileID: 0}
     - target: {fileID: 1099086187488244550, guid: 3f86df29ebd2aaed4a8516183f535c38, type: 3}
       propertyPath: m_LocalPosition.x
@@ -307,6 +307,7 @@ GameObject:
   - component: {fileID: 831744783}
   - component: {fileID: 831744782}
   - component: {fileID: 831744786}
+  - component: {fileID: 831744787}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -421,6 +422,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &831744787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831744781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2eb44a6726389fea97b40a82586794a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  count: 0
 --- !u!1 &1074667045
 GameObject:
   m_ObjectHideFlags: 0

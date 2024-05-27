@@ -14,10 +14,6 @@ public class card : MonoBehaviour
     private bool test;
     public Transform pullCardTransform;
     private Animation anim;
-    private bool stack;
-
-
-    //private GameObject dosButton;
 
     public Vector3 rotationAngles; // Define the rotation angles here
     void OnMouseDown()
@@ -32,41 +28,44 @@ public class card : MonoBehaviour
         string[] layedCardName = gameObject.transform.name.Split("_");
 
 
-
-        for (int i = 0; i < playerHand.transform.childCount; i++)
+        stopButton = GameObject.Find("StopButton");
+        if (stopButton.active)
         {
-            string[] CardHand = playerHand.transform.GetChild(i).gameObject.transform.name.Split("_");
-            Debug.Log("1");
-            stopButton = GameObject.Find("StopButton");
-            if (stopButton.active)
+            Debug.Log(counter.Instance.count + "count");
+            Debug.Log(newestCardName[1] + layedCardName[1] + "cards");
+            //If the number on the cards are equal to each other
+            if (newestCardName[1] == layedCardName[1])
             {
-                Debug.Log("2");
-
-                if (newestCardName[0] == layedCardName[0] || newestCardName[1] == layedCardName[1] || layedCardName[0] == "Special")
-                {
-                    Debug.Log("3");
-
-                    if (layedCardName[0] == "Special")
-                    {
-                        Debug.Log("4");
-
-                        if (layedCardName[1] == "4")
-                        {
-                            Debug.Log("draw 4 Cards");
-                        }
-                        gameObject.transform.name = "Green_Color";
-                    }
-                    transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
-                    transform.eulerAngles = new Vector3(0, 0, 0);
-                    transform.parent = parentObj.transform;
-                    transform.localScale = new Vector3(100f, 0.1f, 150f);
-                }
+                transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                transform.parent = parentObj.transform;
+                transform.localScale = new Vector3(100f, 0.1f, 150f);
             }
+            //If the color of teh cards are equal to eachother and the numbers arent
+            else if (newestCardName[0] == layedCardName[0] && newestCardName[1] != layedCardName[1] && counter.Instance.count == 0)
+            {
+                transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                transform.parent = parentObj.transform;
+                transform.localScale = new Vector3(100f, 0.1f, 150f);
+                counter.Instance.count++;
+            }
+            //If it is a special card
             else
             {
-                Debug.Log("Next person");
+                if (layedCardName[1] == "4")
+                {
+                    Debug.Log("draw 4 Cards");
+                }
+                gameObject.transform.name = "Green_Color";
             }
+
         }
+        else
+        {
+            Debug.Log("Next person");
+        }
+
 
 
         // anim = gameObject.GetComponent<Animation>();
