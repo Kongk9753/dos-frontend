@@ -33,7 +33,7 @@ public class start_page : MonoBehaviour
         DestroyImmediate(Camera.main.gameObject);
         SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
         SceneManager.UnloadScene("Start_Page");
-        WebSocketManager.Instance.Connect(LobbyCode);
+        WebSocketManager.Instance.Connect(LobbyCode, idToken.Instance.id);
         //WebSocketManager.Instance.OnMessageReceived += HandleMessage;
     }
 
@@ -45,35 +45,35 @@ public class start_page : MonoBehaviour
 
     void Create_Lobby()
     {
-        DestroyImmediate(Camera.main.gameObject);
-        SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
-        SceneManager.UnloadScene("Start_Page");
         coroutine = GetRequest();
         StartCoroutine(coroutine);
+        Debug.Log(start_page.Instance.CreateLobbyCode + " code");
+
     }
 
     IEnumerator GetRequest()
     {
-        Debug.Log("GetRequest");
         using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:3000/game/create"))
         {
+            www.SetRequestHeader("Authorization", idToken.Instance.id);
             yield return www.SendWebRequest();
-
+            Debug.Log(www.result + " result");
             if (www.result == UnityWebRequest.Result.Success)
             {
+                Debug.Log("halloooo");
                 Debug.Log("Received: " + www.downloadHandler.text);
                 string json = www.downloadHandler.text;
                 start_page.Instance.CreateLobbyCode = (string)JToken.Parse(json).SelectToken("code");
-                WebSocketManager.Instance.Connect(start_page.Instance.CreateLobbyCode);
+                WebSocketManager.Instance.Connect(start_page.Instance.CreateLobbyCode, idToken.Instance.id);
+                SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
+                SceneManager.UnloadScene("Start_Page");
             }
             else
             {
                 Debug.Log("Error: " + www.error);
             }
         } // The using block ensures www.Dispose() is called when this block is exited
-
     }
-
     private void Awake()
     {
         if (Instance == null)

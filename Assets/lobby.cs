@@ -11,27 +11,35 @@ public class lobby : MonoBehaviour
     private Text player2;
     private Text title;
     private string splitText;
+    private List<string> players = new List<string>();
 
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
-        panel = GameObject.Find("Panel");
-        player1 = GameObject.Find("PlayerName (1)").GetComponent<Text>(); ;
-        player2 = GameObject.Find("PlayerName (2)").GetComponent<Text>(); ;
-        title = GameObject.Find("PlayerName (3)").GetComponent<Text>(); ;
+        Text[] playerNames = new Text[10];
+        playerNames[0] = GameObject.Find("PlayerName (1)").GetComponent<Text>();
+        playerNames[1] = GameObject.Find("PlayerName (2)").GetComponent<Text>();
+        title = GameObject.Find("Title").GetComponent<Text>();
+        title.text = "Lobby: " + start_page.Instance.CreateLobbyCode;
 
         // Subscribe to WebSocketManager's OnMessage event
         WebSocketManager.Instance.OnMessageReceived += (string message) =>
         {
             string[] command = message.Split(":");
             Debug.Log("Received message: " + message);
-            Debug.Log("Command: " + command[0]);
+            Debug.Log("Command: " + command[1]);
             Debug.Log("Code: " + start_page.Instance.CreateLobbyCode);
-            splitText = command[0];
-            Debug.Log("panel found :)");
-            player1.text = "player1";
-            player2.text = "player2";
-            title.text = start_page.Instance.CreateLobbyCode; 
+            if (command[0] == "joined")
+            {
+                Debug.Log("HEJ");
+                players.Add(command[1]);
+                Debug.Log(players.Count);
+                for (int i = 0; i < players.Count; i++)
+                {
+                    Debug.Log("HEJ3");
+                    playerNames[i].text = players[i];
+                }
+            }
         };
     }
 

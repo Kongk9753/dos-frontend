@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using WebSocketSharp;
 
-
 public class WebSocketManager : MonoBehaviour
 {
     private static WebSocketManager _instance;
-
     private WebSocket _socket;
 
     // Define a custom event for message received
     public delegate void MessageReceivedHandler(string message);
     public event MessageReceivedHandler OnMessageReceived;
+
     // Singleton pattern
     public static WebSocketManager Instance
     {
@@ -27,8 +26,6 @@ public class WebSocketManager : MonoBehaviour
         }
     }
 
-
-
     private void Awake()
     {
         if (_instance == null)
@@ -42,9 +39,12 @@ public class WebSocketManager : MonoBehaviour
         }
     }
 
-    public void Connect(string gameCode)
+    public void Connect(string gameCode, string authToken)
     {
-        _socket = new WebSocket("ws://localhost:3000/game/join/" + gameCode);
+        Debug.Log(gameCode + " Connect");
+        string url = "ws://localhost:3000/game/join/" + gameCode + "?token=" + authToken;
+        _socket = new WebSocket(url);
+
         _socket.OnOpen += (sender, e) => Debug.Log("WebSocket connected!");
         _socket.OnMessage += (sender, e) =>
         {
@@ -75,5 +75,4 @@ public class WebSocketManager : MonoBehaviour
             _socket.Close();
         }
     }
-
 }
