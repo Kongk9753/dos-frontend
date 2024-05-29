@@ -1,57 +1,147 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using WebSocketSharp;
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using System.Collections;
 
-public class lobby : MonoBehaviour
+public class Lobby : MonoBehaviour
 {
-    private GameObject panel;
-    private Text player1;
-    private Text player2;
+    private Text[] playerNames = new Text[10];
     private Text title;
-    private string splitText;
     private List<string> players = new List<string>();
-
-    // Start is called before the first frame update
-    async void Start()
+    public GameObject StartGame_Button;
+    void Start()
     {
-        Text[] playerNames = new Text[10];
-        playerNames[0] = GameObject.Find("PlayerName (1)").GetComponent<Text>();
-        playerNames[1] = GameObject.Find("PlayerName (2)").GetComponent<Text>();
-        title = GameObject.Find("Title").GetComponent<Text>();
-        title.text = "Lobby: " + start_page.Instance.CreateLobbyCode;
+        Button startGame = StartGame_Button.GetComponent<Button>();
+        startGame.onClick.AddListener(StartGameClick);
 
-        // Subscribe to WebSocketManager's OnMessage event
-        WebSocketManager.Instance.OnMessageReceived += (string message) =>
+        try
         {
-            string[] command = message.Split(":");
+            playerNames[0] = GameObject.Find("PlayerName").GetComponent<Text>();
+            playerNames[1] = GameObject.Find("PlayerName (1)").GetComponent<Text>();
+            playerNames[2] = GameObject.Find("PlayerName (2)").GetComponent<Text>();
+            playerNames[3] = GameObject.Find("PlayerName (3)").GetComponent<Text>();
+            // Initialize other playerNames if necessary
+
+            title = GameObject.Find("Title").GetComponent<Text>();
+            title.text = "Lobby: " + start_page.Instance.CreateLobbyCode;
+
+            // Subscribe to WebSocketManager's OnMessage event
+            WebSocketManager.Instance.OnMessageReceived += (string message) =>
+            {
+                UnityMainThreadDispatcher.Dispatcher.Enqueue(() => OnMessageReceived(message));
+            };
+
+            Debug.Log("UI elements initialized and WebSocket event subscribed.");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Error during Start initialization: " + ex.Message);
+        }
+    }
+
+
+    void StartGameClick()
+    {
+        LoadScene("Game_page");
+
+    }
+
+    private void OnMessageReceived(string message)
+    {
+        try
+        {
+            string[] command = message.Split(':');
             Debug.Log("Received message: " + message);
-            Debug.Log("Command: " + command[1]);
+            if (command.Length < 2)
+            {
+                Debug.LogError("Invalid message format");
+                return;
+            }
+
+            Debug.Log("Command: " + command[0]);
+            Debug.Log("Player Name: " + command[1]);
             Debug.Log("Code: " + start_page.Instance.CreateLobbyCode);
+
             if (command[0] == "joined")
             {
-                Debug.Log("HEJ");
                 players.Add(command[1]);
-                Debug.Log(players.Count);
-                for (int i = 0; i < players.Count; i++)
-                {
-                    Debug.Log("HEJ3");
-                    playerNames[i].text = players[i];
-                }
+                UpdatePlayerNames();
             }
-        };
+            else if (command[1] == "list")
+            {
+                List<string> formerPlayers = new List<string>();
+                formerPlayers.AddRange(command[2].Split(","));
+                Debug.Log(formerPlayers + "players");
+                for (int i = 0; i < formerPlayers.Count; i++)
+                {
+                    players.Add(formerPlayers[i]);
+                }
+                UpdatePlayerNames();
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Error during OnMessageReceived: " + ex.Message);
+        }
     }
 
-    void HandleMessage(string message)
+    private void UpdatePlayerNames()
     {
-        string[] command = message.Split(":");
-        Debug.Log("Received message: " + message);
-        Debug.Log("Command: " + command[0]);
-        splitText = command[0];
+        try
+        {
+            Debug.Log("Updating player names. Player count: " + players.Count);
+            for (int i = 0; i < players.Count && i < playerNames.Length; i++)
+            {
+                if (playerNames[i] != null)
+                {
+                    Debug.Log("Updating player name: " + players[i]);
+                    playerNames[i].text = players[i];
+                }
+                else
+                {
+                    Debug.LogWarning("playerNames[" + i + "] is null");
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Error during UpdatePlayerNames: " + ex.Message);
+        }
     }
-    // Update is called once per frame
-    void Update()
+
+    public void LoadScene(string sceneName)
     {
+        // Start loading the new scene
+        StartCoroutine(LoadAndUnloadScene(sceneName));
     }
+
+
+    private IEnumerator LoadAndUnloadScene(string sceneName)
+    {
+        // Load the new scene
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+
+        // Wait until the new scene is fully loaded
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        // Set the newly loaded scene as the active scene
+        Scene newScene = SceneManager.GetSceneByName(sceneName);
+        SceneManager.SetActiveScene(newScene);
+
+        // Unload the first scene
+        AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync("Login");
+        AsyncOperation asyncUnload2 = SceneManager.UnloadSceneAsync("Lobby");
+
+        // Wait until the first scene is fully unloaded
+        while (!asyncUnload.isDone && !asyncUnload2.isDone)
+        {
+            yield return null;
+        }
+    }
+
 }

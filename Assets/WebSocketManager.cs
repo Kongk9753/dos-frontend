@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -21,6 +20,7 @@ public class WebSocketManager : MonoBehaviour
             {
                 GameObject singleton = new GameObject("WebSocketManager");
                 _instance = singleton.AddComponent<WebSocketManager>();
+                DontDestroyOnLoad(singleton);
             }
             return _instance;
         }
@@ -48,7 +48,15 @@ public class WebSocketManager : MonoBehaviour
         _socket.OnOpen += (sender, e) => Debug.Log("WebSocket connected!");
         _socket.OnMessage += (sender, e) =>
         {
-            OnMessageReceived?.Invoke(e.Data); // Trigger the custom event when a message is received
+            try
+            {
+                // Use dispatcher to ensure OnMessageReceived is invoked on the main thread
+                UnityMainThreadDispatcher.Dispatcher.Enqueue(() => OnMessageReceived?.Invoke(e.Data));
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("WebSocket error: An error occurred during the OnMessage event. " + ex.Message);
+            }
         };
         _socket.OnClose += (sender, e) => Debug.Log("WebSocket closed!");
         _socket.OnError += (sender, e) => Debug.LogError("WebSocket error: " + e.Message);

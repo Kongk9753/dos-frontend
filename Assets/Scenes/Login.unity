@@ -151,6 +151,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 131849644}
     - target: {fileID: 5407117399215296959, guid: 4cfc219d4e47fb650b837547b8597407, type: 3}
+      propertyPath: Login_Canvas
+      value: 
+      objectReference: {fileID: 653843163}
+    - target: {fileID: 5407117399215296959, guid: 4cfc219d4e47fb650b837547b8597407, type: 3}
       propertyPath: Register_Button
       value: 
       objectReference: {fileID: 1527745723}
@@ -363,6 +367,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &653843163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7674851550272475420, guid: 4cfc219d4e47fb650b837547b8597407, type: 3}
+  m_PrefabInstance: {fileID: 411625709}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

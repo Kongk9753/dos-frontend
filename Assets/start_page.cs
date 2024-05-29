@@ -29,6 +29,7 @@ public class start_page : MonoBehaviour
     void Join_Lobby()
     {
         string LobbyCode = Lobby_Code.text.ToString();
+        start_page.Instance.CreateLobbyCode = LobbyCode;
         Debug.Log(LobbyCode);
         DestroyImmediate(Camera.main.gameObject);
         SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
@@ -47,7 +48,6 @@ public class start_page : MonoBehaviour
     {
         coroutine = GetRequest();
         StartCoroutine(coroutine);
-        Debug.Log(start_page.Instance.CreateLobbyCode + " code");
 
     }
 
@@ -60,8 +60,6 @@ public class start_page : MonoBehaviour
             Debug.Log(www.result + " result");
             if (www.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("halloooo");
-                Debug.Log("Received: " + www.downloadHandler.text);
                 string json = www.downloadHandler.text;
                 start_page.Instance.CreateLobbyCode = (string)JToken.Parse(json).SelectToken("code");
                 WebSocketManager.Instance.Connect(start_page.Instance.CreateLobbyCode, idToken.Instance.id);

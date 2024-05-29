@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "12574c32f658fa23c194357141abc3fc157ea362"
     },
+    "com.gustavopsantos.unitymainthreaddispatcher": {
+      "version": "https://github.com/gustavopsantos/unitymainthreaddispatcher.git?path=/Assets/UnityMainThreadDispatcher/#1.0.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "5553609a79c1c093639afc2ea789a40594715cb6"
+    },
     "com.unity.collab-proxy": {
       "version": "2.3.1",
       "depth": 0,
