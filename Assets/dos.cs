@@ -9,7 +9,13 @@ public class dos : MonoBehaviour
     private GameObject dosButton;
     public Transform pullCardTransform;
     private GameObject parentObj;
+    private Transform card;
 
+    void Start()
+    {
+        card = GameObject.Find("Cards").transform;
+
+    }
     void OnMouseDown()
     {
 
@@ -20,19 +26,17 @@ public class dos : MonoBehaviour
         {
             dosButton = GameObject.Find("DosButton");
             dosButton.active = false;
+            WebSocketManager.Instance.Send("dos:"+ WebSocketManager.Instance.player);
         }
         else
         {
-            // pulls = GameObject.Find("Cards").GetComponent<pullCard>();
-            // pulls.Pull(pullCardTransform);
-            // pulls.Pull(pullCardTransform);
+            pulls.Pull(card, "Cube0");
+            WebSocketManager.Instance.playedOrPulled = false;
+            pulls.Pull(card, "Cube0");
+            WebSocketManager.Instance.playedOrPulled = false;
         }
     }
     // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()

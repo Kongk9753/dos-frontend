@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GamePage : MonoBehaviour
 {
@@ -13,8 +14,8 @@ public class GamePage : MonoBehaviour
     private pullCard pulls;
     public card findCard;
     private GameObject stopButton;
-
-
+    public Transform cards;
+    public Vector3 rotationAngles; // Define the rotation angles here
 
     // Start is called before the first frame update
     void Start()
@@ -29,17 +30,53 @@ public class GamePage : MonoBehaviour
 
         stopButton = GameObject.Find("StopButton");
         stopButton.SetActive(false);
+        GameObject[] prefabs = Resources.LoadAll<GameObject>("behind");
+        GameObject prefab = prefabs[0];
+        GameObject behind = Instantiate(prefab, cards.position + Vector3.right * i, Quaternion.identity, cards);
 
+        // Rotate the instantiated prefab
+        behind.transform.Rotate(rotationAngles);
+
+        // Adjust the scale of the instantiated prefab if needed
+        behind.transform.localScale = new Vector3(100f, 0.1f, 150f);
         if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 0)
         {
             dictionary[WebSocketManager.Instance.players[0]] = cube0;
             dictionary[WebSocketManager.Instance.players[1]] = cube1;
             dictionary[WebSocketManager.Instance.players[2]] = cube2;
             dictionary[WebSocketManager.Instance.players[3]] = cube3;
-            pulls.Pull(card, "Cube0");
-            pulls.Pull(card, "Cube1");
-            pulls.Pull(card, "Cube2");
-            pulls.Pull(card, "Cube3");
+            // for (int i = 0; i < WebSocketManager.Instance.players.Count; i++)
+            // {
+            //     Debug.Log("Pulling cards: " + WebSocketManager.Instance.players[i]);
+            //     if (WebSocketManager.Instance.players[i] == "dummy")
+            //     {
+            //         continue;
+            //     }
+
+            //     dictionary[WebSocketManager.Instance.players[i]] = cards[i];
+            //     for (int j = 0; j < 7; j++)
+            //     {
+            //         pulls.Pull(card, cards[i].ToString());
+            //     }
+            // }
+
+            for (int i = 0; i < 7; i++)
+            {
+                pulls.Pull(card, "Cube0");
+            }
+
+            for (int i = 0; i < 7; i++)
+            {
+                
+            }
+
+            // for (int i = 0; i < 7; i++)
+            // {
+            //     pulls.Pull(card, "Cube0");
+            //     pulls.Pull(<card>, "Cube1");
+            //     pulls.Pull(card, "Cube2");
+            //     pulls.Pull(card, "Cube3");
+            // }
             Debug.Log("0");
         }
         else if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 1)
@@ -108,11 +145,54 @@ public class GamePage : MonoBehaviour
                 Debug.Log("myturn");
                 stopButton.SetActive(true);
             }
+            else if (command[0] == "dos")
+            {
+                Debug.Log("myturn");
+                stopButton.SetActive(true);
+            }
+            else if (command[0] == "won")
+            {
+                WebSocketManager.Instance.winner = command[1];
+                LoadScene();
+            }
+
 
         }
         catch (System.Exception ex)
         {
             Debug.LogError("Error during OnMessageReceived: " + ex.Message);
+        }
+    }
+
+    public void LoadScene()
+    {
+        // Start loading the new scene
+        StartCoroutine(LoadAndUnloadScene("WinScreen"));
+    }
+
+
+    private IEnumerator LoadAndUnloadScene(string sceneName)
+    {
+        // Load the new scene
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+
+        // Wait until the new scene is fully loaded
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        // Set the newly loaded scene as the active scene
+        Scene newScene = SceneManager.GetSceneByName(sceneName);
+        SceneManager.SetActiveScene(newScene);
+
+        // Unload the first scene
+        AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync("Game_Page");
+
+        // Wait until the first scene is fully unloaded
+        while (!asyncUnload.isDone)
+        {
+            yield return null;
         }
     }
 

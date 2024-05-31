@@ -63,7 +63,7 @@ public class card : MonoBehaviour
                 transform.parent = parentObj.transform;
                 transform.localScale = new Vector3(100f, 0.1f, 150f);
                 WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
-                Debug.Log("send1");
+                childCount = playerHand.transform.childCount;
             }
             //If the color of teh cards are equal to eachother and the numbers arent
             else if (newestCardName[0] == layedCardName[0] && newestCardName[1] != layedCardName[1] && counter.Instance.count == 0)
@@ -74,7 +74,7 @@ public class card : MonoBehaviour
                 transform.localScale = new Vector3(100f, 0.1f, 150f);
                 counter.Instance.count++;
                 WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
-                Debug.Log("send2");
+                childCount = playerHand.transform.childCount;
             }
             //If it is a special card
             else
@@ -84,8 +84,13 @@ public class card : MonoBehaviour
                     Debug.Log("draw 4 Cards");
                 }
                 gameObject.transform.name = "Green_Color";
-                Debug.Log("send3");
+                childCount = playerHand.transform.childCount;
+            }
 
+            if (childCount == 0)
+            {
+                Debug.Log("done");
+                WebSocketManager.Instance.Send("win:" + WebSocketManager.Instance.player);
             }
 
         }
