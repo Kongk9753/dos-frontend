@@ -23,9 +23,9 @@ public class dos : MonoBehaviour
         }
         else
         {
-            pulls = GameObject.Find("Cards").GetComponent<pullCard>();
-            pulls.Pull(pullCardTransform);
-            pulls.Pull(pullCardTransform);
+            // pulls = GameObject.Find("Cards").GetComponent<pullCard>();
+            // pulls.Pull(pullCardTransform);
+            // pulls.Pull(pullCardTransform);
         }
     }
     // Start is called before the first frame update

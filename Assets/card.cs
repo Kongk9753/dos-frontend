@@ -18,9 +18,9 @@ public class card : MonoBehaviour
     public Vector3 rotationAngles; // Define the rotation angles here
     void OnMouseDown()
     {
-
+        string parentName = transform.parent.gameObject.name;
         parentObj = GameObject.Find("Deck");
-        playerHand = GameObject.Find("Cube");
+        playerHand = GameObject.Find(parentName);
         Debug.Log("OnMouseDown");
         int childCount = playerHand.transform.childCount;
         GameObject newestCard = parentObj.transform.GetChild(parentObj.transform.childCount - 1).gameObject;
@@ -84,9 +84,9 @@ public class card : MonoBehaviour
         dosButton = GameObject.Find("DosButton");
         if (dosButton.active && childCount == 2)
         {
-            pulls = GameObject.Find("Cards").GetComponent<pullCard>();
-            pulls.Pull(pullCardTransform);
-            pulls.Pull(pullCardTransform);
+            // pulls = GameObject.Find("Cards").GetComponent<pullCard>();
+            // pulls.Pull(pullCardTransform);
+            // pulls.Pull(pullCardTransform);
         }
     }
 

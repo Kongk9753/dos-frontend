@@ -58,6 +58,10 @@ public class login : MonoBehaviour
         {
             if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
             {
+                UnityMainThreadDispatcher.Dispatcher.Enqueue(() =>
+                {
+                    WebSocketManager.Instance.player = email.Split("@")[0];
+                });
                 Debug.Log("User signed in successfully.");
                 logedin = true;
                 Debug.Log(task);

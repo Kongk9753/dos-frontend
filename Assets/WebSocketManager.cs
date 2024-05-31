@@ -1,7 +1,11 @@
 using System;
 using UnityEngine;
 using WebSocketSharp;
-
+using System.Collections.Generic;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using System.Collections;
 public class WebSocketManager : MonoBehaviour
 {
     private static WebSocketManager _instance;
@@ -10,6 +14,9 @@ public class WebSocketManager : MonoBehaviour
     // Define a custom event for message received
     public delegate void MessageReceivedHandler(string message);
     public event MessageReceivedHandler OnMessageReceived;
+
+    public List<string> players = new List<string>();
+    public string player = "";
 
     // Singleton pattern
     public static WebSocketManager Instance

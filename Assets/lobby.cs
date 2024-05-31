@@ -9,7 +9,6 @@ public class Lobby : MonoBehaviour
 {
     private Text[] playerNames = new Text[10];
     private Text title;
-    private List<string> players = new List<string>();
     public GameObject StartGame_Button;
     void Start()
     {
@@ -44,8 +43,8 @@ public class Lobby : MonoBehaviour
 
     void StartGameClick()
     {
-        LoadScene("Game_page");
 
+        WebSocketManager.Instance.Send("game:start");
     }
 
     private void OnMessageReceived(string message)
@@ -64,9 +63,9 @@ public class Lobby : MonoBehaviour
             Debug.Log("Player Name: " + command[1]);
             Debug.Log("Code: " + start_page.Instance.CreateLobbyCode);
 
-            if (command[0] == "joined")
+            if (command[0] == "joined" && command[1] != "")
             {
-                players.Add(command[1]);
+                WebSocketManager.Instance.players.Add(command[1]);
                 UpdatePlayerNames();
             }
             else if (command[1] == "list")
@@ -76,9 +75,17 @@ public class Lobby : MonoBehaviour
                 Debug.Log(formerPlayers + "players");
                 for (int i = 0; i < formerPlayers.Count; i++)
                 {
-                    players.Add(formerPlayers[i]);
+                    if (formerPlayers[i] != "")
+                    {
+                        WebSocketManager.Instance.players.Add(formerPlayers[i]);
+                    }
                 }
                 UpdatePlayerNames();
+            }
+            else if (command[1] == "started")
+            {
+                LoadScene("Game_page");
+
             }
         }
         catch (System.Exception ex)
@@ -91,13 +98,11 @@ public class Lobby : MonoBehaviour
     {
         try
         {
-            Debug.Log("Updating player names. Player count: " + players.Count);
-            for (int i = 0; i < players.Count && i < playerNames.Length; i++)
+            for (int i = 0; i < WebSocketManager.Instance.players.Count && i < playerNames.Length; i++)
             {
                 if (playerNames[i] != null)
                 {
-                    Debug.Log("Updating player name: " + players[i]);
-                    playerNames[i].text = players[i];
+                    playerNames[i].text = WebSocketManager.Instance.players[i];
                 }
                 else
                 {
