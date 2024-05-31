@@ -65,19 +65,19 @@ public class Lobby : MonoBehaviour
 
             if (command[0] == "joined" && command[1] != "")
             {
-                WebSocketManager.Instance.players.Add(command[1]);
+                WebSocketManager.Instance.players.Add(command[1].Split(",")[0]);
                 UpdatePlayerNames();
             }
             else if (command[1] == "list")
             {
                 List<string> formerPlayers = new List<string>();
-                formerPlayers.AddRange(command[2].Split(","));
+                formerPlayers.AddRange(command[2].Split(";"));
                 Debug.Log(formerPlayers + "players");
                 for (int i = 0; i < formerPlayers.Count; i++)
                 {
                     if (formerPlayers[i] != "")
                     {
-                        WebSocketManager.Instance.players.Add(formerPlayers[i]);
+                        WebSocketManager.Instance.players.Add(formerPlayers[i].Split(",")[0]);
                     }
                 }
                 UpdatePlayerNames();

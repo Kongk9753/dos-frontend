@@ -19,7 +19,7 @@ public class pullCard : MonoBehaviour
     public void Pull(Transform pullTransform, string cubeNumber)
     {
         Debug.Log("OnMouseDown");
-        parentObj = GameObject.Find("Cube" + cubeNumber);
+        parentObj = GameObject.Find(cubeNumber);
         int i = 0;
         if (parentObj == null)
         {

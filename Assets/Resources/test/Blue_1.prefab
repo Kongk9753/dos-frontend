@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5628625876865525795}
   - component: {fileID: 5829341245443293176}
   m_Layer: 0
-  m_Name: Blue_2
+  m_Name: Blue_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2d3f8480e5a9b3d0b486421f7b06155, type: 2}
+  - {fileID: 2100000, guid: ea849d070815e84d1856cd3540111ab9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentObj: {fileID: 0}
+  stopButton: {fileID: 0}
   playerHand: {fileID: 0}
   pulls: {fileID: 0}
   pullCardTransform: {fileID: 0}
