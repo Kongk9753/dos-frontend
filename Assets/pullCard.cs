@@ -14,6 +14,8 @@ public class pullCard : MonoBehaviour
     void OnMouseDown()
     {
         Pull(meeple, cubeNumber);
+        WebSocketManager.Instance.playedOrPulled = true;
+
     }
 
     public void Pull(Transform pullTransform, string cubeNumber)

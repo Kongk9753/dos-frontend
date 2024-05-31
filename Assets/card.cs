@@ -48,7 +48,7 @@ public class card : MonoBehaviour
         GameObject newestCard = parentObj.transform.GetChild(parentObj.transform.childCount - 1).gameObject;
         string[] newestCardName = newestCard.transform.name.Split("_");
         string[] layedCardName = gameObject.transform.name.Split("_");
-
+        WebSocketManager.Instance.playedOrPulled = true;
 
         stopButton = GameObject.Find("StopButton");
         if (stopButton.active)

@@ -40,7 +40,6 @@ public class GamePage : MonoBehaviour
             pulls.Pull(card, "Cube1");
             pulls.Pull(card, "Cube2");
             pulls.Pull(card, "Cube3");
-
             Debug.Log("0");
         }
         else if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 1)

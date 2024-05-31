@@ -17,6 +17,10 @@ public class WebSocketManager : MonoBehaviour
 
     public List<string> players = new List<string>();
     public string player = "";
+    public string playerCube = "";
+
+    public bool playedOrPulled = false;
+
 
     // Singleton pattern
     public static WebSocketManager Instance
