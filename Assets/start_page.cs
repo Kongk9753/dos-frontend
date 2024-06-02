@@ -35,13 +35,6 @@ public class start_page : MonoBehaviour
         SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
         SceneManager.UnloadScene("Start_Page");
         WebSocketManager.Instance.Connect(LobbyCode, idToken.Instance.id);
-        //WebSocketManager.Instance.OnMessageReceived += HandleMessage;
-    }
-
-    void HandleMessage(string message)
-    {
-        // Handle the received message here
-        Debug.Log("Received message: " + message);
     }
 
     void Create_Lobby()
@@ -63,6 +56,7 @@ public class start_page : MonoBehaviour
                 string json = www.downloadHandler.text;
                 start_page.Instance.CreateLobbyCode = (string)JToken.Parse(json).SelectToken("code");
                 WebSocketManager.Instance.Connect(start_page.Instance.CreateLobbyCode, idToken.Instance.id);
+                WebSocketManager.Instance.isOwner = true;
                 SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
                 SceneManager.UnloadScene("Start_Page");
             }

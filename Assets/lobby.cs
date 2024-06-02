@@ -32,7 +32,11 @@ public class Lobby : MonoBehaviour
                 UnityMainThreadDispatcher.Dispatcher.Enqueue(() => OnMessageReceived(message));
             };
 
-            Debug.Log("UI elements initialized and WebSocket event subscribed.");
+            if (!WebSocketManager.Instance.isOwner)
+            {
+                    StartGame_Button.SetActive(false);
+            }
+
         }
         catch (System.Exception ex)
         {

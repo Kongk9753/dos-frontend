@@ -43,9 +43,20 @@ public class pullCard : MonoBehaviour
         // anim = pullTransform.GetComponent<Animation>();
         // anim.Play("pullCard");  
 
-        pullTransform.position = transform.position + new Vector3(-300f - pullTransform.parent.position.x - pullTransform.position.x + (90f * childCount), 135f, pullTransform.parent.position.z - pullTransform.position.z);
-        pullTransform.eulerAngles = new Vector3(0, 90, 40);
-        pullTransform.localScale = new Vector3(0.003998217f, 1.011981f, 0.1200001f);
+
+        if (pullTransform.parent.gameObject.name == "Cube1" || pullTransform.parent.gameObject.name == "Cube3")
+        {
+            pullTransform.position = transform.position + new Vector3( pullTransform.parent.position.x - pullTransform.position.x + (90f * childCount), 135f,pullTransform.parent.position.z - pullTransform.position.z);
+            pullTransform.localScale = new Vector3(0.1098217f, 1.011981f, 0.01f);
+            pullTransform.eulerAngles = new Vector3(-20, 90, 0);
+        }
+        else
+        {
+            pullTransform.position = transform.position + new Vector3(-300f - pullTransform.parent.position.x - pullTransform.position.x + (90f * childCount), 135f, pullTransform.parent.position.z - pullTransform.position.z);
+            pullTransform.localScale = new Vector3(0.003998217f, 1.011981f, 0.1200001f);
+            pullTransform.eulerAngles = new Vector3(0, 90, 40);
+
+        }
     }
 
     // Update is called once per frame

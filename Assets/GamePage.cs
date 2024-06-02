@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GamePage : MonoBehaviour
@@ -10,6 +11,9 @@ public class GamePage : MonoBehaviour
     private GameObject cube1;
     private GameObject cube2;
     private GameObject cube3;
+    private GameObject dosCanvas;
+    private Text dosText;
+
     private Transform card;
     private pullCard pulls;
     public card findCard;
@@ -20,6 +24,8 @@ public class GamePage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        dosCanvas = GameObject.Find("Dos");
+        dosCanvas.SetActive(false);
         while (WebSocketManager.Instance.players.Count < 4)
         {
             WebSocketManager.Instance.players.Add("dummy");
@@ -32,13 +38,13 @@ public class GamePage : MonoBehaviour
         stopButton.SetActive(false);
         GameObject[] prefabs = Resources.LoadAll<GameObject>("behind");
         GameObject prefab = prefabs[0];
-        GameObject behind = Instantiate(prefab, cards.position + Vector3.right * i, Quaternion.identity, cards);
+        //GameObject behind = Instantiate(prefab, cards.position + Vector3.right * i, Quaternion.identity, cards);
 
-        // Rotate the instantiated prefab
-        behind.transform.Rotate(rotationAngles);
+        // // Rotate the instantiated prefab
+        // behind.transform.Rotate(rotationAngles);
 
-        // Adjust the scale of the instantiated prefab if needed
-        behind.transform.localScale = new Vector3(100f, 0.1f, 150f);
+        // // Adjust the scale of the instantiated prefab if needed
+        // behind.transform.localScale = new Vector3(100f, 0.1f, 150f);
         if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 0)
         {
             dictionary[WebSocketManager.Instance.players[0]] = cube0;
@@ -60,14 +66,14 @@ public class GamePage : MonoBehaviour
             //     }
             // }
 
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 3; i++)
             {
                 pulls.Pull(card, "Cube0");
             }
 
             for (int i = 0; i < 7; i++)
             {
-                
+
             }
 
             // for (int i = 0; i < 7; i++)
@@ -148,7 +154,8 @@ public class GamePage : MonoBehaviour
             else if (command[0] == "dos")
             {
                 Debug.Log("myturn");
-                stopButton.SetActive(true);
+                dosCanvas.SetActive(true);
+                StartCoroutine(HidePopup(command[1]));
             }
             else if (command[0] == "won")
             {
@@ -162,6 +169,18 @@ public class GamePage : MonoBehaviour
         {
             Debug.LogError("Error during OnMessageReceived: " + ex.Message);
         }
+    }
+
+
+    private IEnumerator HidePopup(string dosPlayer)
+    {
+        dosText = GameObject.Find("DosText").GetComponent<Text>();
+        dosText.text = dosPlayer + " Has DOS";
+
+        // Wait for 2 seconds
+        yield return new WaitForSeconds(5f);
+        // Hide the popup
+        dosCanvas.SetActive(false);
     }
 
     public void LoadScene()

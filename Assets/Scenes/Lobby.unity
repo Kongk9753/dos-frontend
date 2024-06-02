@@ -454,13 +454,34 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 851507410974620631, guid: 1b3ab566e182833189705575a019ffa4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1660639181}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2596963671523317954, guid: 1b3ab566e182833189705575a019ffa4, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 292985575}
   m_SourcePrefab: {fileID: 100100000, guid: 1b3ab566e182833189705575a019ffa4, type: 3}
 --- !u!224 &292985573 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 851507410974620631, guid: 1b3ab566e182833189705575a019ffa4, type: 3}
   m_PrefabInstance: {fileID: 292985572}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &292985574 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2596963671523317954, guid: 1b3ab566e182833189705575a019ffa4, type: 3}
+  m_PrefabInstance: {fileID: 292985572}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &292985575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292985574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61d59271185a1dd5cb9571d58176992e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartGame_Button: {fileID: 1660639180}
 --- !u!1 &300578329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1024,6 @@ GameObject:
   - component: {fileID: 1660639181}
   - component: {fileID: 1660639186}
   - component: {fileID: 1660639185}
-  - component: {fileID: 1660639184}
   - component: {fileID: 1660639183}
   m_Layer: 5
   m_Name: Start
@@ -1076,19 +1096,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1660639184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660639180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61d59271185a1dd5cb9571d58176992e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StartGame_Button: {fileID: 1660639180}
 --- !u!114 &1660639185
 MonoBehaviour:
   m_ObjectHideFlags: 0

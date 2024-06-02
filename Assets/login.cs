@@ -10,8 +10,8 @@ using UnityEngine.EventSystems;
 
 public class login : MonoBehaviour
 {
-    public Text Email_field;
-    public Text Password_field;
+    public InputField Email_field;
+    public InputField Password_field;
     public Button Login_Button;
     public Button Register_Button;
     public GameObject Register_Canvas;
@@ -27,6 +27,12 @@ public class login : MonoBehaviour
         Button register = Register_Button.GetComponent<Button>();
         register.onClick.AddListener(RegisterClick);
 
+        
+        if (Password_field != null)
+        {
+            Debug.Log("pass");
+            Password_field.contentType = InputField.ContentType.Password;
+        }
 
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {

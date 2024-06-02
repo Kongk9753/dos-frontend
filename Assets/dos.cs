@@ -7,7 +7,6 @@ public class dos : MonoBehaviour
 {
     private pullCard pulls;
     private GameObject dosButton;
-    public Transform pullCardTransform;
     private GameObject parentObj;
     private Transform card;
 
@@ -19,7 +18,7 @@ public class dos : MonoBehaviour
     void OnMouseDown()
     {
 
-        parentObj = GameObject.Find("Cube");
+        parentObj = GameObject.Find("Cube0");
         int childCount = parentObj.transform.childCount;
 
         if (childCount == 3)
