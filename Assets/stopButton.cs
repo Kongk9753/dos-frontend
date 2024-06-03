@@ -19,6 +19,11 @@ public class StopButton : MonoBehaviour
     }
     void OnMouseDown()
     {
+        if (WebSocketManager.Instance.lastCardPlus4)
+        {
+            pulls.Pull(card, "Cube0");
+            //Later finifh when other players get message that you pull card
+        }
 
         if (!WebSocketManager.Instance.playedOrPulled)
         {

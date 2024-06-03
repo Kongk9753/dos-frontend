@@ -23,6 +23,7 @@ public class WebSocketManager : MonoBehaviour
 
     public bool playedOrPulled = false;
     public bool isOwner = false;
+    public bool lastCardPlus4 = false;
 
 
     // Singleton pattern

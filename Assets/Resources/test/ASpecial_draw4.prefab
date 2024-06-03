@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5628625876865525795}
   - component: {fileID: 5829341245443293176}
   m_Layer: 0
-  m_Name: Special_4
+  m_Name: ASpecial_draw4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentObj: {fileID: 0}
+  stopButton: {fileID: 0}
   playerHand: {fileID: 0}
   pulls: {fileID: 0}
   pullCardTransform: {fileID: 0}

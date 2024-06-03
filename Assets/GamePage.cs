@@ -20,11 +20,15 @@ public class GamePage : MonoBehaviour
     private GameObject stopButton;
     public Transform cards;
     public Vector3 rotationAngles; // Define the rotation angles here
+    public GameObject deck;
+
 
     // Start is called before the first frame update
     void Start()
     {
         dosCanvas = GameObject.Find("Dos");
+        deck = GameObject.Find("Deck");
+
         dosCanvas.SetActive(false);
         while (WebSocketManager.Instance.players.Count < 4)
         {
@@ -51,6 +55,12 @@ public class GamePage : MonoBehaviour
             dictionary[WebSocketManager.Instance.players[1]] = cube1;
             dictionary[WebSocketManager.Instance.players[2]] = cube2;
             dictionary[WebSocketManager.Instance.players[3]] = cube3;
+            pulls.Pull(card, "Cube0");
+            pulls.Pull(card, "Cube1");
+            pulls.Pull(card, "Cube2");
+            pulls.Pull(card, "Cube3");
+            pulls.Pull(card, "Cube0");
+
             // for (int i = 0; i < WebSocketManager.Instance.players.Count; i++)
             // {
             //     Debug.Log("Pulling cards: " + WebSocketManager.Instance.players[i]);
@@ -66,15 +76,15 @@ public class GamePage : MonoBehaviour
             //     }
             // }
 
-            for (int i = 0; i < 3; i++)
-            {
-                pulls.Pull(card, "Cube0");
-            }
+            // for (int i = 0; i < 3; i++)
+            // {
+            //     pulls.Pull(card, "Cube0");
+            // }
 
-            for (int i = 0; i < 7; i++)
-            {
+            // for (int i = 0; i < 7; i++)
+            // {
 
-            }
+            // }
 
             // for (int i = 0; i < 7; i++)
             // {
@@ -95,6 +105,8 @@ public class GamePage : MonoBehaviour
             pulls.Pull(card, "Cube0");
             pulls.Pull(card, "Cube1");
             pulls.Pull(card, "Cube2");
+            pulls.Pull(card, "Cube3");
+
             Debug.Log("1");
         }
         else if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 2)
@@ -150,6 +162,15 @@ public class GamePage : MonoBehaviour
             {
                 Debug.Log("myturn");
                 stopButton.SetActive(true);
+
+                GameObject newestCard = deck.transform.GetChild(deck.transform.childCount - 1).gameObject;
+                string[] newestCardName = newestCard.transform.name.Split("_");
+
+                if (newestCardName[0] == "ASpecial" && newestCardName[1] == "draw4(Clone)")
+                {
+                    WebSocketManager.Instance.lastCardPlus4 = true;
+                }
+
             }
             else if (command[0] == "dos")
             {

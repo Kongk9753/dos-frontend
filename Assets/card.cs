@@ -53,6 +53,7 @@ public class card : MonoBehaviour
         stopButton = GameObject.Find("StopButton");
         if (stopButton.active)
         {
+            Debug.Log(layedCardName[1] + " layed Card");
             Debug.Log(counter.Instance.count + "count");
             Debug.Log(newestCardName[1] + layedCardName[1] + "cards");
             //If the number on the cards are equal to each other
@@ -66,7 +67,7 @@ public class card : MonoBehaviour
                 childCount = playerHand.transform.childCount;
             }
             //If the color of teh cards are equal to eachother and the numbers arent
-            else if (newestCardName[0] == layedCardName[0] && newestCardName[1] != layedCardName[1] && counter.Instance.count == 0)
+            else if (newestCardName[0] == layedCardName[0] && newestCardName[1] != layedCardName[1] && counter.Instance.count == 0 && newestCardName[1] != "draw4")
             {
                 transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
                 transform.eulerAngles = new Vector3(0, 0, 0);
@@ -77,13 +78,15 @@ public class card : MonoBehaviour
                 childCount = playerHand.transform.childCount;
             }
             //If it is a special card
-            else
+            else if (layedCardName[1] == "draw4(Clone)")
             {
-                if (layedCardName[1] == "4")
-                {
-                    Debug.Log("draw 4 Cards");
-                }
-                gameObject.transform.name = "Green_Color";
+                WebSocketManager.Instance.lastCardPlus4 = false;
+                transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                transform.parent = parentObj.transform;
+                transform.localScale = new Vector3(100f, 0.1f, 150f);
+                counter.Instance.count++;
+                WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
                 childCount = playerHand.transform.childCount;
             }
 
@@ -123,6 +126,14 @@ public class card : MonoBehaviour
         }
     }
 
+    public void draw4()
+    {
+        pulls = GameObject.Find("Cards").GetComponent<pullCard>();
+        pulls.Pull(pullCardTransform, "Cube0");
+        pulls.Pull(pullCardTransform, "Cube0");
+        pulls.Pull(pullCardTransform, "Cube0");
+        pulls.Pull(pullCardTransform, "Cube0");
+    }
     // Start is called before the first frame update
     void Start()
     {
