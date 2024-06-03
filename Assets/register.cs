@@ -35,8 +35,6 @@ public class register : MonoBehaviour
                 // Create and hold a reference to your FirebaseApp,
                 // where app is a Firebase.FirebaseApp property of your application class.
                 auth = FirebaseAuth.DefaultInstance;
-
-                // Set a flag here to indicate whether Firebase is ready to use by your app.
             }
             else
             {

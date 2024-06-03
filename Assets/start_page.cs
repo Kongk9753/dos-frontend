@@ -14,8 +14,6 @@ public class start_page : MonoBehaviour
     private IEnumerator coroutine;
     public string CreateLobbyCode;
     public static start_page Instance;
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +21,6 @@ public class start_page : MonoBehaviour
         joinLobby.onClick.AddListener(Join_Lobby);
         Button createLobby = Create_Lobby_Button.GetComponent<Button>();
         createLobby.onClick.AddListener(Create_Lobby);
-
-        Debug.Log(idToken.Instance.id + "startpage");
     }
     void Join_Lobby()
     {
@@ -41,7 +37,6 @@ public class start_page : MonoBehaviour
     {
         coroutine = GetRequest();
         StartCoroutine(coroutine);
-
     }
 
     IEnumerator GetRequest()
@@ -50,7 +45,6 @@ public class start_page : MonoBehaviour
         {
             www.SetRequestHeader("Authorization", idToken.Instance.id);
             yield return www.SendWebRequest();
-            Debug.Log(www.result + " result");
             if (www.result == UnityWebRequest.Result.Success)
             {
                 string json = www.downloadHandler.text;

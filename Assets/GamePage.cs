@@ -6,21 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class GamePage : MonoBehaviour
 {
-
     private GameObject cube0;
     private GameObject cube1;
     private GameObject cube2;
     private GameObject cube3;
     private GameObject dosCanvas;
-
+    private GameObject colorCanvas;
     private Text dosText;
-
+    private Text colorText;
     private Transform card;
     private pullCard pulls;
     public otherCard findCard;
     private GameObject stopButton;
-    public Transform cards;
-    public Vector3 rotationAngles; // Define the rotation angles here
     public GameObject deck;
     private Dictionary<string, string> dictionary;
 
@@ -29,9 +26,11 @@ public class GamePage : MonoBehaviour
     {
         dictionary = new Dictionary<string, string>();
         dosCanvas = GameObject.Find("Dos");
+        colorCanvas = GameObject.Find("Color");
         deck = GameObject.Find("Deck");
         counter.Instance.pickColor.SetActive(false);
         dosCanvas.SetActive(false);
+        colorCanvas.SetActive(false);
         while (WebSocketManager.Instance.players.Count < 4)
         {
             WebSocketManager.Instance.players.Add("dummy");
@@ -62,7 +61,6 @@ public class GamePage : MonoBehaviour
             pulls.Pull(card, "Cube1", "true");
             pulls.Pull(card, "Cube2", "true");
             pulls.Pull(card, "Cube3", "true");
-            Debug.Log("0");
         }
         else if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 1)
         {
@@ -74,7 +72,6 @@ public class GamePage : MonoBehaviour
             pulls.Pull(card, "Cube0", "false");
             pulls.Pull(card, "Cube1", "true");
             pulls.Pull(card, "Cube2", "true");
-            Debug.Log("1");
         }
         else if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 2)
         {
@@ -86,7 +83,6 @@ public class GamePage : MonoBehaviour
             pulls.Pull(card, "Cube3", "true");
             pulls.Pull(card, "Cube0", "false");
             pulls.Pull(card, "Cube1", "true");
-            Debug.Log("2");
         }
         else if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 3)
         {
@@ -98,14 +94,11 @@ public class GamePage : MonoBehaviour
             pulls.Pull(card, "Cube2", "true");
             pulls.Pull(card, "Cube3", "true");
             pulls.Pull(card, "Cube0", "false");
-            Debug.Log("3");
         }
-
         WebSocketManager.Instance.OnMessageReceived += (string message) =>
         {
             UnityMainThreadDispatcher.Dispatcher.Enqueue(() => OnMessageReceived(message));
         };
-
     }
 
     private void OnMessageReceived(string message)
@@ -115,13 +108,14 @@ public class GamePage : MonoBehaviour
             string[] command = message.Split(':');
             Debug.Log("Received message: " + message);
 
-
             if (command[0] == "played" && command[1] != "")
             {
-                Debug.Log("4");
-
-                Debug.Log(command[1] + "player");
-                Debug.Log("5");
+                if (command[2].Split("_")[1] == "Color(Clone)" || command[2].Split("_")[1] == "Draw4(Clone)")
+                {
+                    colorCanvas.SetActive(true);
+                    string newColor = command[2].Split("_")[0];
+                    StartCoroutine(HidePopupColor(newColor));
+                }
 
                 foreach (KeyValuePair<string, string> keyValue in dictionary)
                 {
@@ -138,19 +132,14 @@ public class GamePage : MonoBehaviour
                     if (key == command[1] && command[1] != WebSocketManager.Instance.player)
                     {
                         findCard = GameObject.Find("Blue_2(Clone)").GetComponent<otherCard>();
-
                         findCard.LayOthersCard(value, command[2]);
                     }
-                    Debug.Log("AccessDictionary - " + key + ": " + value + " eehehheh");
                 }
-
-
             }
             else if (command[0] == "turn")
             {
                 Debug.Log("myturn");
                 stopButton.SetActive(true);
-
                 GameObject newestCard = deck.transform.GetChild(deck.transform.childCount - 1).gameObject;
                 string[] newestCardName = newestCard.transform.name.Split("_");
 
@@ -162,7 +151,6 @@ public class GamePage : MonoBehaviour
             }
             else if (command[0] == "dos")
             {
-                Debug.Log("myturn");
                 dosCanvas.SetActive(true);
                 StartCoroutine(HidePopup(command[1]));
             }
@@ -204,12 +192,23 @@ public class GamePage : MonoBehaviour
     private IEnumerator HidePopup(string dosPlayer)
     {
         dosText = GameObject.Find("DosText").GetComponent<Text>();
-        dosText.text = dosPlayer + " Has DOS";
+        dosText.text = dosPlayer + " has DOS";
 
         // Wait for 2 seconds
         yield return new WaitForSeconds(5f);
         // Hide the popup
         dosCanvas.SetActive(false);
+    }
+
+    private IEnumerator HidePopupColor(string color)
+    {
+        colorText = GameObject.Find("ColorText").GetComponent<Text>();
+        colorText.text = color + " is the color";
+
+        // Wait for 2 seconds
+        yield return new WaitForSeconds(5f);
+        // Hide the popup
+        colorCanvas.SetActive(false);
     }
 
     public void LoadScene()

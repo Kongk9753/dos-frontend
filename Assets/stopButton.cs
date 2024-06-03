@@ -4,18 +4,14 @@ using UnityEngine;
 
 public class StopButton : MonoBehaviour
 {
-
     private GameObject stopButton;
     private pullCard pulls;
     private Transform card;
-
-
     // Start is called before the first frame update
     void Start()
     {
         pulls = GameObject.Find("Cards").GetComponent<pullCard>();
         card = GameObject.Find("Cards").transform;
-
     }
     void OnMouseDown()
     {
@@ -25,6 +21,7 @@ public class StopButton : MonoBehaviour
             pulls.Pull(card, "Cube0", "false");
             pulls.Pull(card, "Cube0", "false");
             pulls.Pull(card, "Cube0", "false");
+            WebSocketManager.Instance.lastCardPlus4 = false;
             //Later finifh when other players get message that you pull card
         }
 
@@ -34,8 +31,8 @@ public class StopButton : MonoBehaviour
             WebSocketManager.Instance.playedOrPulled = false;
             pulls.Pull(card, "Cube0", "false");
             WebSocketManager.Instance.playedOrPulled = false;
-
         }
+        
         stopButton = GameObject.Find("StopButton");
         if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == WebSocketManager.Instance.players.Count - 1)
         {
@@ -53,6 +50,7 @@ public class StopButton : MonoBehaviour
             WebSocketManager.Instance.Send("turn:" + element);
         }
         stopButton.active = false;
+        counter.Instance.count = 0;
     }
 
 }

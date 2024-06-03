@@ -9,15 +9,12 @@ public class dos : MonoBehaviour
     private GameObject dosButton;
     private GameObject parentObj;
     private Transform card;
-
     void Start()
     {
         card = GameObject.Find("Cards").transform;
-
     }
     void OnMouseDown()
     {
-
         parentObj = GameObject.Find("Cube0");
         int childCount = parentObj.transform.childCount;
 
@@ -34,12 +31,5 @@ public class dos : MonoBehaviour
             pulls.Pull(card, "Cube0", "false");
             WebSocketManager.Instance.playedOrPulled = false;
         }
-    }
-    // Start is called before the first frame update
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

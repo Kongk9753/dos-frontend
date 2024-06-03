@@ -27,7 +27,6 @@ public class login : MonoBehaviour
         Button register = Register_Button.GetComponent<Button>();
         register.onClick.AddListener(RegisterClick);
 
-        
         if (Password_field != null)
         {
             Debug.Log("pass");
@@ -42,8 +41,6 @@ public class login : MonoBehaviour
                 // Create and hold a reference to your FirebaseApp,
                 // where app is a Firebase.FirebaseApp property of your application class.
                 auth = FirebaseAuth.DefaultInstance;
-
-                // Set a flag here to indicate whether Firebase is ready to use by your app.
             }
             else
             {

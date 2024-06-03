@@ -13,12 +13,6 @@ public class counter : MonoBehaviour
     {
         pickColor = GameObject.Find("ChangeColor");
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     private void Awake()
     {
         if (Instance == null)

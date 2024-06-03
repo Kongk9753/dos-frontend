@@ -47,7 +47,6 @@ public class Lobby : MonoBehaviour
 
     void StartGameClick()
     {
-
         WebSocketManager.Instance.Send("game:start");
     }
 
@@ -62,10 +61,6 @@ public class Lobby : MonoBehaviour
                 Debug.LogError("Invalid message format");
                 return;
             }
-
-            Debug.Log("Command: " + command[0]);
-            Debug.Log("Player Name: " + command[1]);
-            Debug.Log("Code: " + start_page.Instance.CreateLobbyCode);
 
             if (command[0] == "joined" && command[1] != "")
             {
