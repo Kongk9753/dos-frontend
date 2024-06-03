@@ -4,24 +4,17 @@ using UnityEngine;
 
 public class deck : MonoBehaviour
 {
-      public Transform cards;
-    public Vector3 rotationAngles; // Define the rotation angles here
+    public pullCard pulls;
+    public Transform pullCardTransform;
 
     void Start()
     {
-        GameObject[] prefabs = Resources.LoadAll<GameObject>("test");
-        Debug.Log(prefabs.Length);
+        pulls = GameObject.Find("Cards").GetComponent<pullCard>();
 
-        for (int i = 0; i < prefabs.Length; i++)
-        {
-            GameObject prefab = prefabs[i];
-            GameObject instance = Instantiate(prefab, cards.position + Vector3.right * i, Quaternion.identity, cards);
+    }
+    void OnMouseDown()
+    {
+        pulls.Pull(pullCardTransform, "Cube0", "false");
 
-            // Rotate the instantiated prefab
-            instance.transform.Rotate(rotationAngles);
-
-            // Adjust the scale of the instantiated prefab if needed
-            instance.transform.localScale = new Vector3(100f, 0.1f, 150f); // Set the scale to desired values
-        }
     }
 }

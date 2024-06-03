@@ -12,20 +12,24 @@ public class GamePage : MonoBehaviour
     private GameObject cube2;
     private GameObject cube3;
     private GameObject dosCanvas;
+
+    private GameObject changecolor;
+
     private Text dosText;
 
     private Transform card;
     private pullCard pulls;
-    public card findCard;
+    public otherCard findCard;
     private GameObject stopButton;
     public Transform cards;
     public Vector3 rotationAngles; // Define the rotation angles here
     public GameObject deck;
-
+    private Dictionary<string, string> dictionary;
 
     // Start is called before the first frame update
     void Start()
     {
+        dictionary = new Dictionary<string, string>();
         dosCanvas = GameObject.Find("Dos");
         deck = GameObject.Find("Deck");
 
@@ -34,7 +38,6 @@ public class GamePage : MonoBehaviour
         {
             WebSocketManager.Instance.players.Add("dummy");
         }
-        Dictionary<string, GameObject> dictionary = new Dictionary<string, GameObject>();
         pulls = GameObject.Find("Cards").GetComponent<pullCard>();
         card = GameObject.Find("Cards").transform;
 
@@ -42,99 +45,64 @@ public class GamePage : MonoBehaviour
         stopButton.SetActive(false);
         GameObject[] prefabs = Resources.LoadAll<GameObject>("behind");
         GameObject prefab = prefabs[0];
-        //GameObject behind = Instantiate(prefab, cards.position + Vector3.right * i, Quaternion.identity, cards);
 
-        // // Rotate the instantiated prefab
-        // behind.transform.Rotate(rotationAngles);
+        WebSocketManager.Instance.Send("ready:now");
 
-        // // Adjust the scale of the instantiated prefab if needed
-        // behind.transform.localScale = new Vector3(100f, 0.1f, 150f);
+        cube0 = GameObject.Find("cube0");
+        cube1 = GameObject.Find("cube1");
+        cube2 = GameObject.Find("cube2");
+        cube3 = GameObject.Find("cube3");
+
+
         if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 0)
         {
-            dictionary[WebSocketManager.Instance.players[0]] = cube0;
-            dictionary[WebSocketManager.Instance.players[1]] = cube1;
-            dictionary[WebSocketManager.Instance.players[2]] = cube2;
-            dictionary[WebSocketManager.Instance.players[3]] = cube3;
-            pulls.Pull(card, "Cube0");
-            pulls.Pull(card, "Cube1");
-            pulls.Pull(card, "Cube2");
-            pulls.Pull(card, "Cube3");
-            pulls.Pull(card, "Cube0");
-
-            // for (int i = 0; i < WebSocketManager.Instance.players.Count; i++)
-            // {
-            //     Debug.Log("Pulling cards: " + WebSocketManager.Instance.players[i]);
-            //     if (WebSocketManager.Instance.players[i] == "dummy")
-            //     {
-            //         continue;
-            //     }
-
-            //     dictionary[WebSocketManager.Instance.players[i]] = cards[i];
-            //     for (int j = 0; j < 7; j++)
-            //     {
-            //         pulls.Pull(card, cards[i].ToString());
-            //     }
-            // }
-
-            // for (int i = 0; i < 3; i++)
-            // {
-            //     pulls.Pull(card, "Cube0");
-            // }
-
-            // for (int i = 0; i < 7; i++)
-            // {
-
-            // }
-
-            // for (int i = 0; i < 7; i++)
-            // {
-            //     pulls.Pull(card, "Cube0");
-            //     pulls.Pull(<card>, "Cube1");
-            //     pulls.Pull(card, "Cube2");
-            //     pulls.Pull(card, "Cube3");
-            // }
+            dictionary[WebSocketManager.Instance.players[0]] = "Cube0";
+            dictionary[WebSocketManager.Instance.players[1]] = "Cube1";
+            dictionary[WebSocketManager.Instance.players[2]] = "Cube2";
+            dictionary[WebSocketManager.Instance.players[3]] = "Cube3";
+            pulls.Pull(card, "Cube0", "false");
+            pulls.Pull(card, "Cube1", "true");
+            pulls.Pull(card, "Cube2", "true");
+            pulls.Pull(card, "Cube3", "true");
             Debug.Log("0");
         }
         else if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 1)
         {
-            dictionary[WebSocketManager.Instance.players[0]] = cube3;
-            dictionary[WebSocketManager.Instance.players[1]] = cube0;
-            dictionary[WebSocketManager.Instance.players[2]] = cube1;
-            dictionary[WebSocketManager.Instance.players[3]] = cube2;
-            pulls.Pull(card, "Cube3");
-            pulls.Pull(card, "Cube0");
-            pulls.Pull(card, "Cube1");
-            pulls.Pull(card, "Cube2");
-            pulls.Pull(card, "Cube3");
-
+            dictionary[WebSocketManager.Instance.players[0]] = "Cube3";
+            dictionary[WebSocketManager.Instance.players[1]] = "Cube0";
+            dictionary[WebSocketManager.Instance.players[2]] = "Cube1";
+            dictionary[WebSocketManager.Instance.players[3]] = "Cube2";
+            pulls.Pull(card, "Cube3", "true");
+            pulls.Pull(card, "Cube0", "false");
+            pulls.Pull(card, "Cube1", "true");
+            pulls.Pull(card, "Cube2", "true");
             Debug.Log("1");
         }
         else if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 2)
         {
-            dictionary[WebSocketManager.Instance.players[0]] = cube2;
-            dictionary[WebSocketManager.Instance.players[1]] = cube3;
-            dictionary[WebSocketManager.Instance.players[2]] = cube0;
-            dictionary[WebSocketManager.Instance.players[3]] = cube1;
-            pulls.Pull(card, "Cube2");
-            pulls.Pull(card, "Cube3");
-            pulls.Pull(card, "Cube0");
-            pulls.Pull(card, "Cube1");
+            dictionary[WebSocketManager.Instance.players[0]] = cube2.name;
+            dictionary[WebSocketManager.Instance.players[1]] = cube3.name;
+            dictionary[WebSocketManager.Instance.players[2]] = cube0.name;
+            dictionary[WebSocketManager.Instance.players[3]] = cube1.name;
+            pulls.Pull(card, "Cube2", "true");
+            pulls.Pull(card, "Cube3", "true");
+            pulls.Pull(card, "Cube0", "false");
+            pulls.Pull(card, "Cube1", "true");
             Debug.Log("2");
         }
         else if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 3)
         {
-            dictionary[WebSocketManager.Instance.players[0]] = cube1;
-            dictionary[WebSocketManager.Instance.players[1]] = cube2;
-            dictionary[WebSocketManager.Instance.players[2]] = cube3;
-            dictionary[WebSocketManager.Instance.players[3]] = cube0;
-            pulls.Pull(card, "Cube1");
-            pulls.Pull(card, "Cube2");
-            pulls.Pull(card, "Cube3");
-            pulls.Pull(card, "Cube0");
+            dictionary[WebSocketManager.Instance.players[0]] = cube1.name;
+            dictionary[WebSocketManager.Instance.players[1]] = cube2.name;
+            dictionary[WebSocketManager.Instance.players[2]] = cube3.name;
+            dictionary[WebSocketManager.Instance.players[3]] = cube0.name;
+            pulls.Pull(card, "Cube1", "true");
+            pulls.Pull(card, "Cube2", "true");
+            pulls.Pull(card, "Cube3", "true");
+            pulls.Pull(card, "Cube0", "false");
             Debug.Log("3");
         }
 
-        WebSocketManager.Instance.Send("ready:now");
         WebSocketManager.Instance.OnMessageReceived += (string message) =>
         {
             UnityMainThreadDispatcher.Dispatcher.Enqueue(() => OnMessageReceived(message));
@@ -153,9 +121,32 @@ public class GamePage : MonoBehaviour
 
             if (command[0] == "played" && command[1] != "")
             {
-                Debug.Log(command[2] + "command2");
-                findCard = GameObject.Find(command[2]).GetComponent<card>();
-                findCard.LayOthersCard();
+                Debug.Log("4");
+
+                Debug.Log(command[1] + "player");
+                Debug.Log("5");
+
+                foreach (KeyValuePair<string, string> keyValue in dictionary)
+                {
+                    Debug.Log("6");
+
+                    string key = keyValue.Key;
+                    string value = keyValue.Value;
+
+                    if (value == null)
+                    {
+                        Debug.LogError("GameObject value is null for key: " + key);
+                        continue;
+                    }
+                    if (key == command[1] && command[1] != WebSocketManager.Instance.player)
+                    {
+                        findCard = GameObject.Find("Blue_2(Clone)").GetComponent<otherCard>();
+
+                        findCard.LayOthersCard(value, command[2]);
+                    }
+                    Debug.Log("AccessDictionary - " + key + ": " + value + " eehehheh");
+                }
+
 
             }
             else if (command[0] == "turn")
@@ -182,6 +173,26 @@ public class GamePage : MonoBehaviour
             {
                 WebSocketManager.Instance.winner = command[1];
                 LoadScene();
+            }
+            else if (command[0] == "pulled")
+            {
+                foreach (KeyValuePair<string, string> keyValue in dictionary)
+                {
+                    string key = keyValue.Key;
+                    string value = keyValue.Value;
+
+                    if (value == null)
+                    {
+                        Debug.LogError("GameObject value is null for key: " + key);
+                        continue;
+                    }
+                    if (key == command[1] && command[1] != WebSocketManager.Instance.player)
+                    {
+                        pulls.Pull(card, value, "true");
+                    }
+                }
+
+
             }
 
 

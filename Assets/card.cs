@@ -14,7 +14,8 @@ public class card : MonoBehaviour
     private bool test;
     public Transform pullCardTransform;
     private Animation anim;
-    private GameObject cards;
+    private Transform cards;
+    public card Instance;
 
     public Vector3 rotationAngles; // Define the rotation angles here
     void OnMouseDown()
@@ -23,20 +24,6 @@ public class card : MonoBehaviour
         LayCard();
     }
 
-    public void LayOthersCard()
-    {
-        string parentName = transform.parent.gameObject.name;
-        parentObj = GameObject.Find("Deck");
-        playerHand = GameObject.Find(parentName);
-        Debug.Log("OnMouseDown");
-        int childCount = playerHand.transform.childCount;
-
-        transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y + (1f * childCount), 1300 - transform.position.z);
-        transform.eulerAngles = new Vector3(0, 0, 0);
-        transform.parent = parentObj.transform;
-        transform.localScale = new Vector3(100f, 0.1f, 150f);
-        return;
-    }
 
     public void LayCard()
     {
@@ -101,14 +88,6 @@ public class card : MonoBehaviour
         {
             Debug.Log("Next person");
         }
-
-
-
-        // anim = gameObject.GetComponent<Animation>();
-        // anim.Play("layCard");
-        //test =GameObject.Find("Blue_2(Clone)").GetComponent<Animation>().Play("layCard");
-
-
         //Sort cards in hand when card has been layed doen
         for (int i = 0; i < childCount; i++)
         {
@@ -120,27 +99,19 @@ public class card : MonoBehaviour
         dosButton = GameObject.Find("DosButton");
         if (dosButton.active && childCount == 2)
         {
-            // pulls = GameObject.Find("Cards").GetComponent<pullCard>();
-            // pulls.Pull(pullCardTransform);
-            // pulls.Pull(pullCardTransform);
+            pulls = GameObject.Find("Cards").GetComponent<pullCard>();
+            pulls.Pull(pullCardTransform, "Cube0", "false");
+            pulls.Pull(pullCardTransform, "Cube0", "false");
         }
     }
 
     public void draw4()
     {
         pulls = GameObject.Find("Cards").GetComponent<pullCard>();
-        pulls.Pull(pullCardTransform, "Cube0");
-        pulls.Pull(pullCardTransform, "Cube0");
-        pulls.Pull(pullCardTransform, "Cube0");
-        pulls.Pull(pullCardTransform, "Cube0");
+        pulls.Pull(pullCardTransform, "Cube0", "false");
+        pulls.Pull(pullCardTransform, "Cube0", "false");
+        pulls.Pull(pullCardTransform, "Cube0", "false");
+        pulls.Pull(pullCardTransform, "Cube0", "false");
     }
     // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
 }

@@ -21,15 +21,18 @@ public class StopButton : MonoBehaviour
     {
         if (WebSocketManager.Instance.lastCardPlus4)
         {
-            pulls.Pull(card, "Cube0");
+            pulls.Pull(card, "Cube0", "false");
+            pulls.Pull(card, "Cube0", "false");
+            pulls.Pull(card, "Cube0", "false");
+            pulls.Pull(card, "Cube0", "false");
             //Later finifh when other players get message that you pull card
         }
 
         if (!WebSocketManager.Instance.playedOrPulled)
         {
-            pulls.Pull(card, "Cube0");
+            pulls.Pull(card, "Cube0", "false");
             WebSocketManager.Instance.playedOrPulled = false;
-            pulls.Pull(card, "Cube0");
+            pulls.Pull(card, "Cube0", "false");
             WebSocketManager.Instance.playedOrPulled = false;
 
         }

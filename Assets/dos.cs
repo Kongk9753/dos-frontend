@@ -29,9 +29,9 @@ public class dos : MonoBehaviour
         }
         else
         {
-            pulls.Pull(card, "Cube0");
+            pulls.Pull(card, "Cube0", "false");
             WebSocketManager.Instance.playedOrPulled = false;
-            pulls.Pull(card, "Cube0");
+            pulls.Pull(card, "Cube0", "false");
             WebSocketManager.Instance.playedOrPulled = false;
         }
     }
