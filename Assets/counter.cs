@@ -5,12 +5,13 @@ using UnityEngine;
 public class counter : MonoBehaviour
 {
 
-    public static counter Instance;
+    public static counter Instance;    
+    public GameObject pickColor;
     public int count = 0;
-    // Start is called before the first frame update
+    // Start is called before the first frame update 
     void Start()
     {
-
+        pickColor = GameObject.Find("ChangeColor");
     }
 
     // Update is called once per frame

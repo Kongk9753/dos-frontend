@@ -13,8 +13,6 @@ public class GamePage : MonoBehaviour
     private GameObject cube3;
     private GameObject dosCanvas;
 
-    private GameObject changecolor;
-
     private Text dosText;
 
     private Transform card;
@@ -32,7 +30,7 @@ public class GamePage : MonoBehaviour
         dictionary = new Dictionary<string, string>();
         dosCanvas = GameObject.Find("Dos");
         deck = GameObject.Find("Deck");
-
+        counter.Instance.pickColor.SetActive(false);
         dosCanvas.SetActive(false);
         while (WebSocketManager.Instance.players.Count < 4)
         {
@@ -110,7 +108,6 @@ public class GamePage : MonoBehaviour
 
     }
 
-
     private void OnMessageReceived(string message)
     {
         try
@@ -157,7 +154,7 @@ public class GamePage : MonoBehaviour
                 GameObject newestCard = deck.transform.GetChild(deck.transform.childCount - 1).gameObject;
                 string[] newestCardName = newestCard.transform.name.Split("_");
 
-                if (newestCardName[0] == "ASpecial" && newestCardName[1] == "draw4(Clone)")
+                if (newestCardName[1] == "draw4(Clone)")
                 {
                     WebSocketManager.Instance.lastCardPlus4 = true;
                 }

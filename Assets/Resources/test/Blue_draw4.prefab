@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5628625876865525795}
   - component: {fileID: 5829341245443293176}
   m_Layer: 0
-  m_Name: Special_Color
+  m_Name: Blue_draw4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 124921421004789875}
   serializedVersion: 2
   m_LocalRotation: {x: 0.24184473, y: 0.66446304, z: 0.24184473, w: 0.66446304}
-  m_LocalPosition: {x: 0.269, y: 0.89331996, z: 0.15700012}
+  m_LocalPosition: {x: -0.05953932, y: 0.89331996, z: 0.15700012}
   m_LocalScale: {x: 0.003998217, y: 1.0119814, z: 0.12000006}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a690f3fe3cc2c6379b3fddfa2604404b, type: 2}
+  - {fileID: 2100000, guid: b8af3b2ee5d6ffda4956fbd1e655e839, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,7 +119,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentObj: {fileID: 0}
+  stopButton: {fileID: 0}
   playerHand: {fileID: 0}
   pulls: {fileID: 0}
   pullCardTransform: {fileID: 0}
+  Instance: {fileID: 0}
   rotationAngles: {x: 0, y: 0, z: 0}

@@ -15,7 +15,13 @@ public class card : MonoBehaviour
     public Transform pullCardTransform;
     private Animation anim;
     private Transform cards;
+    private string choosenColor = "";
     public card Instance;
+
+    private Button blue;
+    private Button green;
+    private Button yellow;
+    private Button red;
 
     public Vector3 rotationAngles; // Define the rotation angles here
     void OnMouseDown()
@@ -67,14 +73,27 @@ public class card : MonoBehaviour
             //If it is a special card
             else if (layedCardName[1] == "draw4(Clone)")
             {
-                WebSocketManager.Instance.lastCardPlus4 = false;
-                transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
-                transform.eulerAngles = new Vector3(0, 0, 0);
-                transform.parent = parentObj.transform;
-                transform.localScale = new Vector3(100f, 0.1f, 150f);
-                counter.Instance.count++;
-                WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
-                childCount = playerHand.transform.childCount;
+                counter.Instance.pickColor.SetActive(true);
+                blue = GameObject.Find("Blue").GetComponent<Button>();
+                red = GameObject.Find("Red").GetComponent<Button>();
+                yellow = GameObject.Find("Yellow").GetComponent<Button>();
+                green = GameObject.Find("Green").GetComponent<Button>();
+                blue.onClick.AddListener(getColor);
+                red.onClick.AddListener(getColor);
+                yellow.onClick.AddListener(getColor);
+                green.onClick.AddListener(getColor);
+            }
+            else if (layedCardName[1] == "Color(Clone)")
+            {
+                counter.Instance.pickColor.SetActive(true);
+                blue = GameObject.Find("Blue").GetComponent<Button>();
+                red = GameObject.Find("Red").GetComponent<Button>();
+                yellow = GameObject.Find("Yellow").GetComponent<Button>();
+                green = GameObject.Find("Green").GetComponent<Button>();
+                blue.onClick.AddListener(getColorPicker);
+                red.onClick.AddListener(getColorPicker);
+                yellow.onClick.AddListener(getColorPicker);
+                green.onClick.AddListener(getColorPicker);
             }
 
             if (childCount == 0)
@@ -105,13 +124,39 @@ public class card : MonoBehaviour
         }
     }
 
-    public void draw4()
+
+    void getColor()
     {
-        pulls = GameObject.Find("Cards").GetComponent<pullCard>();
-        pulls.Pull(pullCardTransform, "Cube0", "false");
-        pulls.Pull(pullCardTransform, "Cube0", "false");
-        pulls.Pull(pullCardTransform, "Cube0", "false");
-        pulls.Pull(pullCardTransform, "Cube0", "false");
+        int childCount = playerHand.transform.childCount;
+        string buttonName = gameObject.name;
+        choosenColor = buttonName;
+        counter.Instance.pickColor.SetActive(false);
+        WebSocketManager.Instance.lastCardPlus4 = false;
+        transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
+        transform.eulerAngles = new Vector3(0, 0, 0);
+        transform.parent = parentObj.transform;
+        transform.localScale = new Vector3(100f, 0.1f, 150f);
+        counter.Instance.count++;
+        gameObject.transform.name = choosenColor + "_draw4(Clone)";
+        childCount = playerHand.transform.childCount;
+        WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
     }
+
+     void getColorPicker()
+    {
+        int childCount = playerHand.transform.childCount;
+        string buttonName = gameObject.name;
+        choosenColor = buttonName;
+        counter.Instance.pickColor.SetActive(false);
+        transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
+        transform.eulerAngles = new Vector3(0, 0, 0);
+        transform.parent = parentObj.transform;
+        transform.localScale = new Vector3(100f, 0.1f, 150f);
+        counter.Instance.count++;
+        gameObject.transform.name = choosenColor + "_Color";
+        childCount = playerHand.transform.childCount;
+        WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
+    }
+
     // Start is called before the first frame update
 }

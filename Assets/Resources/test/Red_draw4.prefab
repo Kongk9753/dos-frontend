@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5628625876865525795}
   - component: {fileID: 5829341245443293176}
   m_Layer: 0
-  m_Name: ASpecial_draw4
+  m_Name: Green_draw4 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,4 +123,5 @@ MonoBehaviour:
   playerHand: {fileID: 0}
   pulls: {fileID: 0}
   pullCardTransform: {fileID: 0}
+  Instance: {fileID: 0}
   rotationAngles: {x: 0, y: 0, z: 0}
