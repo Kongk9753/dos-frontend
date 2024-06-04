@@ -57,7 +57,7 @@ public class WebSocketManager : MonoBehaviour
     public void Connect(string gameCode, string authToken)
     {
         Debug.Log(gameCode + " Connect");
-        string url = "ws://localhost:3000/game/join/" + gameCode + "?token=" + authToken;
+        string url = "ws://108.61.199.213:3000/game/join/" + gameCode + "?token=" + authToken;
         _socket = new WebSocket(url);
 
         _socket.OnOpen += (sender, e) => Debug.Log("WebSocket connected!");

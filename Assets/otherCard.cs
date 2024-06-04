@@ -15,6 +15,7 @@ public class otherCard : MonoBehaviour
         // Iterate through the loaded prefabs
         for (int i = 0; i < prefabs.Length; i++)
         {
+            Debug.Log(prefabs[i].name + " " + cardName.Split("(")[0] + "cards");
             // Check if the prefab name matches the cardName
             if (prefabs[i].name == cardName.Split("(")[0])
             {

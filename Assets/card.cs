@@ -11,7 +11,6 @@ public class card : MonoBehaviour
     private Transform meeple;
     public pullCard pulls;
     private GameObject dosButton;
-    private bool test;
     public Transform pullCardTransform;
     private string choosenColor = "";
     private Button blue;
@@ -40,7 +39,7 @@ public class card : MonoBehaviour
         if (stopButton.active)
         {
             //If it is a special card
-            if (layedCardName[1] == "draw4(Clone)")
+            if (layedCardName[1] == "Draw4(Clone)")
             {
                 counter.Instance.pickColor.SetActive(true);
                 blue = GameObject.Find("Blue").GetComponent<Button>();
@@ -52,6 +51,8 @@ public class card : MonoBehaviour
                 yellow.onClick.AddListener(() => getColor("Yellow"));
                 green.onClick.AddListener(() => getColor("Green"));
                 childCount = playerHand.transform.childCount;
+                counter.Instance.count++;
+                counter.Instance.plus4 = 0;
             }
             else if (layedCardName[1] == "Color(Clone)")
             {
@@ -65,6 +66,7 @@ public class card : MonoBehaviour
                 yellow.onClick.AddListener(() => getColorPicker("Yellow"));
                 green.onClick.AddListener(() => getColorPicker("Green"));
                 childCount = playerHand.transform.childCount;
+                counter.Instance.count++;
             }
             else if (newestCardName[1] == layedCardName[1])
             {
@@ -74,6 +76,25 @@ public class card : MonoBehaviour
                 transform.localScale = new Vector3(100f, 0.1f, 150f);
                 WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
                 childCount = playerHand.transform.childCount;
+            }
+            else if (newestCardName[0] == layedCardName[0] && layedCardName[1] == "Skip(Clone)")
+            {
+                transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                transform.parent = parentObj.transform;
+                transform.localScale = new Vector3(100f, 0.1f, 150f);
+                WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
+                childCount = playerHand.transform.childCount;
+            }
+            else if (newestCardName[0] == layedCardName[0] && layedCardName[1] == "Draw2(Clone)")
+            {
+                transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                transform.parent = parentObj.transform;
+                transform.localScale = new Vector3(100f, 0.1f, 150f);
+                WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
+                childCount = playerHand.transform.childCount;
+                counter.Instance.plus2 = 0;
             }
             //If the color of teh cards are equal to eachother and the numbers arent
             else if (newestCardName[0] == layedCardName[0] && newestCardName[1] != layedCardName[1] && counter.Instance.count == 0)
@@ -118,13 +139,12 @@ public class card : MonoBehaviour
         int childCount = playerHand.transform.childCount;
         choosenColor = buttonName;
         counter.Instance.pickColor.SetActive(false);
-        WebSocketManager.Instance.lastCardPlus4 = false;
         transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
         transform.eulerAngles = new Vector3(0, 0, 0);
         transform.parent = parentObj.transform;
         transform.localScale = new Vector3(100f, 0.1f, 150f);
         counter.Instance.count++;
-        gameObject.transform.name = choosenColor + "_draw4(Clone)";
+        gameObject.transform.name = choosenColor + "_Draw4(Clone)";
         childCount = playerHand.transform.childCount;
         WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
         if (childCount == 0)

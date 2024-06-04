@@ -41,7 +41,7 @@ public class start_page : MonoBehaviour
 
     IEnumerator GetRequest()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:3000/game/create"))
+        using (UnityWebRequest www = UnityWebRequest.Get("http://108.61.199.213:3000/game/create"))
         {
             www.SetRequestHeader("Authorization", idToken.Instance.id);
             yield return www.SendWebRequest();

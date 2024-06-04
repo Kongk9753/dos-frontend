@@ -8,6 +8,9 @@ public class counter : MonoBehaviour
     public static counter Instance;    
     public GameObject pickColor;
     public int count = 0;
+
+    public int plus4 = 0;
+    public int plus2 = 0;
     // Start is called before the first frame update 
     void Start()
     {

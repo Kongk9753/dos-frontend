@@ -18,6 +18,8 @@ public class GamePage : MonoBehaviour
     private pullCard pulls;
     public otherCard findCard;
     private GameObject stopButton;
+    private StopButton stopButtonFunc;
+
     public GameObject deck;
     private Dictionary<string, string> dictionary;
 
@@ -57,10 +59,14 @@ public class GamePage : MonoBehaviour
             dictionary[WebSocketManager.Instance.players[1]] = "Cube1";
             dictionary[WebSocketManager.Instance.players[2]] = "Cube2";
             dictionary[WebSocketManager.Instance.players[3]] = "Cube3";
-            pulls.Pull(card, "Cube0", "false");
-            pulls.Pull(card, "Cube1", "true");
-            pulls.Pull(card, "Cube2", "true");
-            pulls.Pull(card, "Cube3", "true");
+            for (int i = 0; i < 7; i++)
+            {
+                pulls.Pull(card, "Cube0", "false");
+                pulls.Pull(card, "Cube1", "true");
+                pulls.Pull(card, "Cube2", "true");
+                pulls.Pull(card, "Cube3", "true");
+            }
+
         }
         else if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 1)
         {
@@ -68,10 +74,14 @@ public class GamePage : MonoBehaviour
             dictionary[WebSocketManager.Instance.players[1]] = "Cube0";
             dictionary[WebSocketManager.Instance.players[2]] = "Cube1";
             dictionary[WebSocketManager.Instance.players[3]] = "Cube2";
-            pulls.Pull(card, "Cube3", "true");
-            pulls.Pull(card, "Cube0", "false");
-            pulls.Pull(card, "Cube1", "true");
-            pulls.Pull(card, "Cube2", "true");
+            for (int i = 0; i < 7; i++)
+            {
+                pulls.Pull(card, "Cube3", "true");
+                pulls.Pull(card, "Cube0", "false");
+                pulls.Pull(card, "Cube1", "true");
+                pulls.Pull(card, "Cube2", "true");
+            }
+
         }
         else if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 2)
         {
@@ -79,10 +89,14 @@ public class GamePage : MonoBehaviour
             dictionary[WebSocketManager.Instance.players[1]] = cube3.name;
             dictionary[WebSocketManager.Instance.players[2]] = cube0.name;
             dictionary[WebSocketManager.Instance.players[3]] = cube1.name;
-            pulls.Pull(card, "Cube2", "true");
-            pulls.Pull(card, "Cube3", "true");
-            pulls.Pull(card, "Cube0", "false");
-            pulls.Pull(card, "Cube1", "true");
+            for (int i = 0; i < 7; i++)
+            {
+                pulls.Pull(card, "Cube2", "true");
+                pulls.Pull(card, "Cube3", "true");
+                pulls.Pull(card, "Cube0", "false");
+                pulls.Pull(card, "Cube1", "true");
+            }
+
         }
         else if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == 3)
         {
@@ -90,10 +104,14 @@ public class GamePage : MonoBehaviour
             dictionary[WebSocketManager.Instance.players[1]] = cube2.name;
             dictionary[WebSocketManager.Instance.players[2]] = cube3.name;
             dictionary[WebSocketManager.Instance.players[3]] = cube0.name;
-            pulls.Pull(card, "Cube1", "true");
-            pulls.Pull(card, "Cube2", "true");
-            pulls.Pull(card, "Cube3", "true");
-            pulls.Pull(card, "Cube0", "false");
+            for (int i = 0; i < 7; i++)
+            {
+                pulls.Pull(card, "Cube1", "true");
+                pulls.Pull(card, "Cube2", "true");
+                pulls.Pull(card, "Cube3", "true");
+                pulls.Pull(card, "Cube0", "false");
+            }
+
         }
         WebSocketManager.Instance.OnMessageReceived += (string message) =>
         {
@@ -116,10 +134,22 @@ public class GamePage : MonoBehaviour
                     string newColor = command[2].Split("_")[0];
                     StartCoroutine(HidePopupColor(newColor));
                 }
+                if (command[2].Split("_")[1] == "Draw4(Clone)" && command[1] != WebSocketManager.Instance.player)
+                {
+                    counter.Instance.plus4++;
+                }
+                if (command[2].Split("_")[1] == "Draw2(Clone)" && command[1] != WebSocketManager.Instance.player)
+                {
+                    counter.Instance.plus2++;
+                }
+                if (command[2].Split("_")[1] == "Skip(Clone)")
+                {
+                    stopButtonFunc.Instance.nextPlayer(1, 2);
+                    stopButton.SetActive(false);
+                }
 
                 foreach (KeyValuePair<string, string> keyValue in dictionary)
                 {
-                    Debug.Log("6");
 
                     string key = keyValue.Key;
                     string value = keyValue.Value;
@@ -143,9 +173,10 @@ public class GamePage : MonoBehaviour
                 GameObject newestCard = deck.transform.GetChild(deck.transform.childCount - 1).gameObject;
                 string[] newestCardName = newestCard.transform.name.Split("_");
 
-                if (newestCardName[1] == "draw4(Clone)")
+                if (newestCardName[1] == "Draw4(Clone)")
                 {
-                    WebSocketManager.Instance.lastCardPlus4 = true;
+                    counter.Instance.plus4++;
+                    counter.Instance.count++;
                 }
 
             }
@@ -178,6 +209,10 @@ public class GamePage : MonoBehaviour
                 }
 
 
+            }
+            else if (command[0] == "count")
+            {
+                counter.Instance.plus4 = 0;
             }
 
 

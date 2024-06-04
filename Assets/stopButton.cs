@@ -7,6 +7,7 @@ public class StopButton : MonoBehaviour
     private GameObject stopButton;
     private pullCard pulls;
     private Transform card;
+    public StopButton Instance;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,14 +16,24 @@ public class StopButton : MonoBehaviour
     }
     void OnMouseDown()
     {
-        if (WebSocketManager.Instance.lastCardPlus4)
+        if (counter.Instance.plus4 > 0)
         {
-            pulls.Pull(card, "Cube0", "false");
-            pulls.Pull(card, "Cube0", "false");
-            pulls.Pull(card, "Cube0", "false");
-            pulls.Pull(card, "Cube0", "false");
-            WebSocketManager.Instance.lastCardPlus4 = false;
-            //Later finifh when other players get message that you pull card
+            for (int i = 0; i < 4 * counter.Instance.plus4; i++)
+            {
+                pulls.Pull(card, "Cube0", "false");
+            }
+            counter.Instance.plus4 = 0;
+            WebSocketManager.Instance.Send("card:reset");
+        }
+
+        if (counter.Instance.plus2 > 0)
+        {
+            for (int i = 0; i < 2 * counter.Instance.plus4; i++)
+            {
+                pulls.Pull(card, "Cube0", "false");
+            }
+            counter.Instance.plus2 = 0;
+            WebSocketManager.Instance.Send("card:reset");
         }
 
         if (!WebSocketManager.Instance.playedOrPulled)
@@ -32,19 +43,24 @@ public class StopButton : MonoBehaviour
             pulls.Pull(card, "Cube0", "false");
             WebSocketManager.Instance.playedOrPulled = false;
         }
-        
+        nextPlayer(0, 1);
+
+    }
+
+    public void nextPlayer(int player1, int player2)
+    {
         stopButton = GameObject.Find("StopButton");
         if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == WebSocketManager.Instance.players.Count - 1)
         {
-            string firstElement = WebSocketManager.Instance.players[0];
+            string firstElement = WebSocketManager.Instance.players[player1];
             WebSocketManager.Instance.Send("turn:" + firstElement);
         }
         else
         {
-            string element = WebSocketManager.Instance.players[WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) + 1];
+            string element = WebSocketManager.Instance.players[WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) + player2];
             if (element == "dummy")
             {
-                element = WebSocketManager.Instance.players[0];
+                element = WebSocketManager.Instance.players[player1];
 
             }
             WebSocketManager.Instance.Send("turn:" + element);

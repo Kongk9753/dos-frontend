@@ -27,8 +27,8 @@ public class pullCard : MonoBehaviour
         GameObject prefab;
         if (behind == "false")
         {
-            GameObject[] prefabs = Resources.LoadAll<GameObject>("test");
-            int random = Random.Range(0, 6);
+            GameObject[] prefabs = Resources.LoadAll<GameObject>("Cards");
+            int random = Random.Range(0, 52);
             prefab = prefabs[random];
         }
         else
