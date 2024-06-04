@@ -52,7 +52,6 @@ public class card : MonoBehaviour
                 green.onClick.AddListener(() => getColor("Green"));
                 childCount = playerHand.transform.childCount;
                 counter.Instance.count++;
-                counter.Instance.plus4 = 0;
             }
             else if (layedCardName[1] == "Color(Clone)")
             {
@@ -76,6 +75,7 @@ public class card : MonoBehaviour
                 transform.localScale = new Vector3(100f, 0.1f, 150f);
                 WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
                 childCount = playerHand.transform.childCount;
+                counter.Instance.count++;
             }
             else if (newestCardName[0] == layedCardName[0] && layedCardName[1] == "Skip(Clone)")
             {
@@ -94,6 +94,7 @@ public class card : MonoBehaviour
                 transform.localScale = new Vector3(100f, 0.1f, 150f);
                 WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
                 childCount = playerHand.transform.childCount;
+                counter.Instance.count++;
                 counter.Instance.plus2 = 0;
             }
             //If the color of teh cards are equal to eachother and the numbers arent
@@ -113,7 +114,6 @@ public class card : MonoBehaviour
                 Debug.Log("done");
                 WebSocketManager.Instance.Send("win:" + WebSocketManager.Instance.player);
             }
-
         }
         else
         {
@@ -146,6 +146,8 @@ public class card : MonoBehaviour
         counter.Instance.count++;
         gameObject.transform.name = choosenColor + "_Draw4(Clone)";
         childCount = playerHand.transform.childCount;
+        counter.Instance.count++;
+        counter.Instance.plus4 = 0;
         WebSocketManager.Instance.Send("played:" + gameObject.transform.name);
         if (childCount == 0)
         {

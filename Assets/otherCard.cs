@@ -10,8 +10,7 @@ public class otherCard : MonoBehaviour
 
     public void LayOthersCard(string cubeName, string cardName)
     {
-        // Load all prefabs from the Resources/test folder
-        GameObject[] prefabs = Resources.LoadAll<GameObject>("test");
+        GameObject[] prefabs = Resources.LoadAll<GameObject>("Cards");
         // Iterate through the loaded prefabs
         for (int i = 0; i < prefabs.Length; i++)
         {

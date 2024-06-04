@@ -161,7 +161,7 @@ public class GamePage : MonoBehaviour
                     }
                     if (key == command[1] && command[1] != WebSocketManager.Instance.player)
                     {
-                        findCard = GameObject.Find("Blue_2(Clone)").GetComponent<otherCard>();
+                        findCard = GameObject.Find("Blue_2(Clone) (1)").GetComponent<otherCard>();
                         findCard.LayOthersCard(value, command[2]);
                     }
                 }
@@ -175,7 +175,6 @@ public class GamePage : MonoBehaviour
 
                 if (newestCardName[1] == "Draw4(Clone)")
                 {
-                    counter.Instance.plus4++;
                     counter.Instance.count++;
                 }
 
