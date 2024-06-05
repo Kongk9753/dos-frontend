@@ -11,6 +11,7 @@ public class GamePage : MonoBehaviour
     private GameObject cube2;
     private GameObject cube3;
     private GameObject dosCanvas;
+    private GameObject dosButton;
     private GameObject colorCanvas;
     private Text dosText;
     private Text colorText;
@@ -29,6 +30,7 @@ public class GamePage : MonoBehaviour
         dictionary = new Dictionary<string, string>();
         dosCanvas = GameObject.Find("Dos");
         colorCanvas = GameObject.Find("Color");
+        dosButton = GameObject.Find("DosButton");
         deck = GameObject.Find("Deck");
         counter.Instance.pickColor.SetActive(false);
         dosCanvas.SetActive(false);
@@ -144,6 +146,23 @@ public class GamePage : MonoBehaviour
                 }
                 if (command[2].Split("_")[1] == "Skip(Clone)")
                 {
+                    foreach (KeyValuePair<string, string> keyValue in dictionary)
+                    {
+
+                        string key = keyValue.Key;
+                        string value = keyValue.Value;
+
+                        if (value == null)
+                        {
+                            Debug.LogError("GameObject value is null for key: " + key);
+                            continue;
+                        }
+                        if (key == command[1] && command[1] != WebSocketManager.Instance.player)
+                        {
+                            findCard = GameObject.Find("Blue_2(Clone) (1)").GetComponent<otherCard>();
+                            findCard.LayOthersCard(value, command[2]);
+                        }
+                    }
                     stopButtonFunc.Instance.nextPlayer(1, 2);
                     stopButton.SetActive(false);
                 }
@@ -172,11 +191,15 @@ public class GamePage : MonoBehaviour
                 stopButton.SetActive(true);
                 GameObject newestCard = deck.transform.GetChild(deck.transform.childCount - 1).gameObject;
                 string[] newestCardName = newestCard.transform.name.Split("_");
-
-                if (newestCardName[1] == "Draw4(Clone)")
+                
+                if (cube0.transform.childCount > 2)
                 {
-                    counter.Instance.count++;
+                    dosButton.SetActive(true);
                 }
+                // if (newestCardName[1] == "Draw4(Clone)")
+                // {
+                //     counter.Instance.count++;
+                // }
 
             }
             else if (command[0] == "dos")

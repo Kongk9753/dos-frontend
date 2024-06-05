@@ -38,9 +38,14 @@ public class card : MonoBehaviour
         stopButton = GameObject.Find("StopButton");
         if (stopButton.active)
         {
+            Debug.Log(counter.Instance.count + "laycard counter");
             //If it is a special card
             if (layedCardName[1] == "Draw4(Clone)")
             {
+                for (int i = parentObj.transform.childCount - 1; i >= 0; i--)
+                {
+                    Destroy(parentObj.transform.GetChild(i).gameObject);
+                }
                 counter.Instance.pickColor.SetActive(true);
                 blue = GameObject.Find("Blue").GetComponent<Button>();
                 red = GameObject.Find("Red").GetComponent<Button>();
@@ -52,9 +57,15 @@ public class card : MonoBehaviour
                 green.onClick.AddListener(() => getColor("Green"));
                 childCount = playerHand.transform.childCount;
                 counter.Instance.count++;
+                counter.Instance.plus4 = 0;
+                counter.Instance.plus2 = 0;
             }
             else if (layedCardName[1] == "Color(Clone)")
             {
+                for (int i = parentObj.transform.childCount - 1; i >= 0; i--)
+                {
+                    Destroy(parentObj.transform.GetChild(i).gameObject);
+                }
                 counter.Instance.pickColor.SetActive(true);
                 blue = GameObject.Find("Blue").GetComponent<Button>();
                 red = GameObject.Find("Red").GetComponent<Button>();
@@ -69,6 +80,10 @@ public class card : MonoBehaviour
             }
             else if (newestCardName[1] == layedCardName[1])
             {
+                for (int i = parentObj.transform.childCount - 1; i >= 0; i--)
+                {
+                    Destroy(parentObj.transform.GetChild(i).gameObject);
+                }
                 transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
                 transform.eulerAngles = new Vector3(0, 0, 0);
                 transform.parent = parentObj.transform;
@@ -79,6 +94,10 @@ public class card : MonoBehaviour
             }
             else if (newestCardName[0] == layedCardName[0] && layedCardName[1] == "Skip(Clone)")
             {
+                for (int i = parentObj.transform.childCount - 1; i >= 0; i--)
+                {
+                    Destroy(parentObj.transform.GetChild(i).gameObject);
+                }
                 transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
                 transform.eulerAngles = new Vector3(0, 0, 0);
                 transform.parent = parentObj.transform;
@@ -88,6 +107,10 @@ public class card : MonoBehaviour
             }
             else if (newestCardName[0] == layedCardName[0] && layedCardName[1] == "Draw2(Clone)")
             {
+                for (int i = parentObj.transform.childCount - 1; i >= 0; i--)
+                {
+                    Destroy(parentObj.transform.GetChild(i).gameObject);
+                }
                 transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
                 transform.eulerAngles = new Vector3(0, 0, 0);
                 transform.parent = parentObj.transform;
@@ -100,6 +123,10 @@ public class card : MonoBehaviour
             //If the color of teh cards are equal to eachother and the numbers arent
             else if (newestCardName[0] == layedCardName[0] && newestCardName[1] != layedCardName[1] && counter.Instance.count == 0)
             {
+                for (int i = parentObj.transform.childCount - 1; i >= 0; i--)
+                {
+                    Destroy(parentObj.transform.GetChild(i).gameObject);
+                }
                 transform.position = transform.position + new Vector3(0 - transform.position.x, 0 - transform.position.y - (1f * childCount), 1300 - transform.position.z);
                 transform.eulerAngles = new Vector3(0, 0, 0);
                 transform.parent = parentObj.transform;

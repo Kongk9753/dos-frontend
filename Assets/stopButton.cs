@@ -7,6 +7,8 @@ public class StopButton : MonoBehaviour
     private GameObject stopButton;
     private pullCard pulls;
     private Transform card;
+    public GameObject deck;
+
     public StopButton Instance;
     // Start is called before the first frame update
     void Start()
@@ -28,7 +30,7 @@ public class StopButton : MonoBehaviour
 
         if (counter.Instance.plus2 > 0)
         {
-            for (int i = 0; i < 2 * counter.Instance.plus4; i++)
+            for (int i = 0; i < 2 * counter.Instance.plus2; i++)
             {
                 pulls.Pull(card, "Cube0", "false");
             }
@@ -49,6 +51,7 @@ public class StopButton : MonoBehaviour
 
     public void nextPlayer(int player1, int player2)
     {
+        counter.Instance.count = 0;
         stopButton = GameObject.Find("StopButton");
         if (WebSocketManager.Instance.players.IndexOf(WebSocketManager.Instance.player) == WebSocketManager.Instance.players.Count - 1)
         {
@@ -66,7 +69,6 @@ public class StopButton : MonoBehaviour
             WebSocketManager.Instance.Send("turn:" + element);
         }
         stopButton.active = false;
-        counter.Instance.count = 0;
     }
 
 }

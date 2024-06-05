@@ -73,6 +73,7 @@ public class pullCard : MonoBehaviour
             pullTransform.localScale = new Vector3(0.003998217f, 1.011981f, 0.1200001f);
             pullTransform.eulerAngles = new Vector3(0, 90, 40);
         }
+        
     }
 }
 
